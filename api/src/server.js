@@ -1,20 +1,26 @@
 import express from "express";
 import bodyparser from "body-parser";
+import cors from "cors";
+import { graphqlHTTP } from "express-graphql";
+import { Schema } from "./gql/resolvers";
+import db from "./db/models";
 
 const app = express();
 
-app.all("*", (req, res, next) => {
-    res.set({
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, PUT, OPTIONS, DELETE, GET",
-        "Access-Control-Max-Age": "3600",
-        "Access-Control-Allow-Headers":
-            "Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With, x-access-token",
-    });
-    next();
+app.use("/api", bodyparser.json({ limit: "1000mb" }));
+app.use("/api", bodyparser.urlencoded({ limit: "50mb", extended: true }));
+app.use("/api/v1", cors(), (req, res) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "POST");
+    graphqlHTTP({
+        schema: Schema,
+        graphiql: true,
+        context: { models: db.conn.models },
+    })(req, res);
 });
 
-app.use(bodyparser.json({ limit: "1000mb", type: "application/vnd.api+json" }));
-app.use(bodyparser.urlencoded({ limit: "50mb", extended: true }));
+app.get("/", (req, res) => {
+    res.send("Express is working!");
+});
 
 export default app;
