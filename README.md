@@ -7,13 +7,8 @@ The env variables are broken for each eviroment.
 Example for development
 
 # create .env.development in the root directory
-# create one for each environment develoment|test|production
-DB_HOST=host
-DB_PORT-port
-DB_NAME=db
-DB_DIALECT=postgres
-DB_USER=user
-DB_PASSWORD=password
+create one for each environment develoment|test|production
+
 PORT=3001
 API_BASE_URL=/api/v1
 API_CACHE_DURATION=60
