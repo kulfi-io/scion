@@ -24,25 +24,13 @@ module.exports = {
           key: 'id'
         }
       },
-      canEdit: {
-        type: Sequelize.BOOLEAN,
+      permissionId: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        defaultValue: false
-      },
-      canDeactivate: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-      },
-      canCreate: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
-      },
-      canApprove: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false,
-        defaultValue: false
+        references: {
+          model: 'Permissions',
+          key: 'id'
+        }
       },
       active: {
         type: Sequelize.BOOLEAN,

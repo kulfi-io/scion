@@ -4,6 +4,7 @@ import cors from "cors";
 import { graphqlHTTP } from "express-graphql";
 import { Schema } from "./gql/resolvers";
 import db from "./db/models";
+import { getLoginTokenData } from "./utils";
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use("/api/v1", cors(), (req, res) => {
     res.setHeader("Access-Control-Allow-Methods", "POST");
     graphqlHTTP({
         schema: Schema,
-        graphiql: ((environment.match('development')) ? true : false),
+        graphiql: process.env.NODE_ENV === "development" ,
         context: { models: db.conn.models },
     })(req, res);
 });

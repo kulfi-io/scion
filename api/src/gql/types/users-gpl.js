@@ -4,9 +4,15 @@ import {
     GraphQLList,
     GraphQLNonNull,
     GraphQLObjectType,
+    GraphQLScalarType,
     GraphQLString,
 } from "graphql";
-import { createHash } from "../../util";
+import {
+    comparePassword,
+    createHash,
+    createLoginToken,
+    GraphQLScalarDate,
+} from "../../utils";
 
 export class UserGQL {
     displayModel = new GraphQLObjectType({
@@ -16,20 +22,11 @@ export class UserGQL {
             id: { type: GraphQLInt },
             firstName: { type: GraphQLString },
             lastName: { type: GraphQLString },
+            fullName: { type: GraphQLString },
             email: { type: GraphQLString },
         },
     });
 
-    accessModel = new GraphQLObjectType({
-        name: "accessModel",
-        type: "query",
-        fields: {
-            canEdit: { type: GraphQLBoolean },
-            canCreate: { type: GraphQLBoolean },
-            canDeactivate: { type: GraphQLBoolean },
-            canApprove: { type: GraphQLBoolean },
-        },
-    });
 
     resourceModel = new GraphQLObjectType({
         name: "resourceModel",
@@ -37,7 +34,7 @@ export class UserGQL {
         fields: {
             id: { type: GraphQLInt },
             name: { type: GraphQLString },
-            access: { type: this.accessModel },
+            permissions: { type: GraphQLList(GraphQLString) },
         },
     });
 
@@ -57,6 +54,7 @@ export class UserGQL {
         fields: {
             user: { type: this.displayModel },
             roles: { type: GraphQLList(this.roleModel) },
+            token: { type: GraphQLString },
         },
     });
 
@@ -70,7 +68,7 @@ export class UserGQL {
             email: { type: GraphQLString },
             createdBy: { type: this.displayModel },
             updatedBy: { type: this.displayModel },
-            createdAt: { type: GraphQLString },
+            createdAt: { type: GraphQLScalarDate },
         },
     });
 
@@ -160,49 +158,82 @@ export class UserGQL {
                     include: [
                         {
                             model: context.models.Role,
-                            attributes: ["id", "name"],
+                            attibutes: ["id", "name"],
                             where: {
-                                active: true
+                                active: true,
                             },
-                            include: {
-                                model: context.models.Resource,
-                            },
+                            include: [
+                                {
+                                    model: context.models.Resource,
+                                    where: {
+                                        active: true,
+                                    },
+                                    attributes: ["id", "name"],
+                                    include: {
+                                        model: context.models.Permission,
+                                        where: {
+                                            active: true,
+                                        },
+                                        attributes: ["id", "name"],
+                                    },
+                                },
+                            ],
                         },
                     ],
-                    attributes: ["id", "firstName", "lastName", "email"],
+                    attributes: [
+                        "id",
+                        "firstName",
+                        "lastName",
+                        "email",
+                        "password",
+                    ],
                 });
 
-                const _roles = data.Roles.map((item) => {
-                    return {
-                        id: item.id,
-                        name: item.name,
-                        resources: item.Resources.map((res) => {
-                            return {
-                                id: res.id,
-                                name: res.name,
-                                access: {
-                                    canEdit: res.ResourceRole.canEdit,
-                                    canCreate: res.ResourceRole.canCreate,
-                                    canDeactivate:
-                                        res.ResourceRole.canDeactivate,
-                                    canApprove: res.ResourceRole.canApprove,
-                                },
-                            };
-                        }),
+                if (data && args.password && data.password) {
+                    const valid = await comparePassword(
+                        args.password,
+                        data.password
+                    );
+
+                    if (!valid) return new Error("Invalid Password");
+
+                    const _roles = data.Roles.map((role) => {
+                        return {
+                            id: role.id,
+                            name: role.name,
+                            resources: role.Resources.map((res) => {
+                                return {
+                                    id: res.id,
+                                    name: res.name,
+                                    permissions: res.Permissions.map((perm) => {
+                                        return perm.name;
+                                    }),
+                                };
+                            }),
+                        };
+                    });
+
+                    const _data = {
+                        user: {
+                            firstName: data.firstName,
+                            lastName: data.lastName,
+                            fullName: data.firstName + " " + data.lastName,
+                            email: data.email,
+                        },
+                        roles: _roles,
                     };
-                });
 
-                const _data = {
-                    user: {
-                        id: data.id,
-                        firstName: data.firstName,
-                        lastName: data.lastName,
-                        email: data.email,
-                    },
-                    roles: _roles,
-                };
+                    const token = createLoginToken({
+                        userId: data.id,
+                        payload: _data.roles,
+                    });
 
-                return _data;
+                    _data.token = token;
+
+                    return _data;
+                }
+
+                return data;
             },
         }),
     };

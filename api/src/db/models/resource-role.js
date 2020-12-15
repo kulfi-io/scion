@@ -24,10 +24,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             roleId: DataTypes.INTEGER,
             resourceId: DataTypes.STRING,
-            canEdit: DataTypes.BOOLEAN,
-            canDeactivate: DataTypes.BOOLEAN,
-            canCreate: DataTypes.BOOLEAN,
-            canApprove: DataTypes.BOOLEAN,
+            permissionId: DataTypes.STRING,
             active: DataTypes.BOOLEAN,
         },
         {

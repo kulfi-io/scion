@@ -136,6 +136,48 @@ module.exports = {
         );
 
         await queryInterface.bulkInsert(
+            "Permissions",
+            [
+                {
+                    name: 'canView',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canEdit',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canCreate',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canDeactivate',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canApprove',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canManageInSpace',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canManageAccrossSpaces',
+                    createdById: 1,
+                    updatedById: 1
+                }
+               
+            ]
+        );
+
+        await queryInterface.bulkInsert(
             "UserRoles",
             [
                 {
@@ -154,93 +196,280 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 1,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 1,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 1,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 1,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 1,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+               
+                {
+                    roleId: 1,
+                    resourceId: 2,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 2,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 2,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 2,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 3,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 1,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 3,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 4,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 4,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
+                    resourceId: 4,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 4,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
                     resourceId: 5,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 1,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 6,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 6,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 6,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 6,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 6,
+                    permissionId: 6,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 7,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 7,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 7,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 7,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 8,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 8,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 8,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 8,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+                {
+                    roleId: 1,
+                    resourceId: 9,
+                    permissionId: 1,
                     createdById: 1,
                     updatedById: 1,
                 },
                 {
                     roleId: 1,
                     resourceId: 9,
-                    canEdit: true,
-                    canCreate: true,
-                    canDeactivate: true,
-                    canApprove: true,
+                    permissionId: 2,
                     createdById: 1,
                     updatedById: 1,
                 },
+                {
+                    roleId: 1,
+                    resourceId: 9,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+                {
+                    roleId: 1,
+                    resourceId: 9,
+                    permissionId: 4,
+                    createdById: 1,
+                    updatedById: 1,
+                },
+
+    
             ],
             {}
         );
