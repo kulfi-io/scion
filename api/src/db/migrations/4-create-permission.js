@@ -10,6 +10,7 @@ module.exports = {
             },
             name: {
                 type: Sequelize.STRING,
+                unoque: true,
                 allowNull: false,
             },
             active: {
@@ -45,6 +46,18 @@ module.exports = {
                 allowNull: false,
                 defaultValue: Sequelize.fn('NOW')
             },
+        },{
+            indexes: [
+                {
+                    unique: true,
+                    fields: ["id"],
+                },
+                
+                {
+                    unique: false,
+                    fields: ["active"],
+                },
+            ],
         });
     },
     down: async (queryInterface, Sequelize) => {

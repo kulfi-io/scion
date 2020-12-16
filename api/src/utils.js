@@ -32,7 +32,24 @@ export const getLoginTokenData = (req) => {
                 throw new Error("No token found");
             }
 
-            return getTokenPayload(token);
+            const data = getTokenPayload(token);
+
+            return {
+                userId: data.userId,
+                role: data.payload.map((rol) => {
+                    return {
+                        id: rol.id,
+                        name: rol.name,
+                        resources: rol.resources.map((res) => {
+                            return {
+                                id: res.id,
+                                name: res.name,
+                                permissions: res.permissions.join(),
+                            };
+                        }),
+                    };
+                }),
+            };
         }
     }
 
@@ -42,10 +59,25 @@ export const getLoginTokenData = (req) => {
 export const GraphQLScalarDate = new GraphQLScalarType({
     name: "GraphQLScalarDate",
     description: "Return date",
-    parseValue: (value) => {
-        return value;
+    parseValue: (data) => {
+        return data;
     },
-    serialize: (value) => {
-        return new Date(Number(value));
+    serialize: (data) => {
+        return new Date(Number(data));
     },
 });
+
+export const verifyAccess = (data, modelName) => {
+    const result = getResource(data, modelName);
+    if (!result.length)
+        throw new Error(`User does not have access to resource`);
+
+    return result;
+};
+
+
+const getResource = (data, modelName) => {
+    return data.role[0].resources.filter(
+        (x) => x.name === modelName
+    );
+};

@@ -16,7 +16,7 @@ app.use("/api/v1", cors(), (req, res) => {
     graphqlHTTP({
         schema: Schema,
         graphiql: process.env.NODE_ENV === "development" ,
-        context: { models: db.conn.models },
+        context: { models: db.conn.models, user: getLoginTokenData(req) },
     })(req, res);
 });
 

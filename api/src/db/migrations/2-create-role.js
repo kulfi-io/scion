@@ -46,6 +46,17 @@ module.exports = {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.fn("NOW"),
             },
+        },{
+            indexes: [
+                {
+                    unique: true,
+                    fields: ["id"],
+                },
+                {
+                    unique: false,
+                    fields: ["active"],
+                },
+            ],
         });
     },
     down: async (queryInterface, Sequelize) => {

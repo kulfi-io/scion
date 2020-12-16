@@ -27,32 +27,43 @@ module.exports = {
             active: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
-                defaultValue: true
+                defaultValue: true,
             },
             createdById: {
                 type: Sequelize.INTEGER,
                 references: {
-                  model: 'Users',
-                  key: 'id'
-                }
+                    model: "Users",
+                    key: "id",
+                },
             },
             updatedById: {
                 type: Sequelize.INTEGER,
                 references: {
-                  model: 'Users',
-                  key: 'id'
-                }
+                    model: "Users",
+                    key: "id",
+                },
             },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
-                defaultValue: Sequelize.fn('NOW')
+                defaultValue: Sequelize.fn("NOW"),
             },
             updatedAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
-                defaultValue: Sequelize.fn('NOW')
-            },
+                defaultValue: Sequelize.fn("NOW"),
+            }
+        }, {
+            indexes: [
+                {
+                    unique: true,
+                    fields: ["userId", "roleId", "active"],
+                },
+                {
+                    unique: false,
+                    fields: ["active"],
+                },
+            ],
         });
     },
     down: async (queryInterface, Sequelize) => {

@@ -1,16 +1,15 @@
 import {
-    GraphQLBoolean,
     GraphQLInt,
     GraphQLList,
     GraphQLNonNull,
     GraphQLObjectType,
-    GraphQLScalarType,
     GraphQLString,
 } from "graphql";
 import {
     comparePassword,
     createHash,
     createLoginToken,
+    verifyAccess,
     GraphQLScalarDate,
 } from "../../utils";
 
@@ -26,7 +25,6 @@ export class UserGQL {
             email: { type: GraphQLString },
         },
     });
-
 
     resourceModel = new GraphQLObjectType({
         name: "resourceModel",
@@ -77,6 +75,8 @@ export class UserGQL {
             type: new GraphQLList(this.model),
             args: {},
             resolve: async (input, args, context) => {
+                verifyAccess(context.user, context.models.User.name);
+
                 const data = await context.models.User.findAll({
                     where: {
                         active: true,
@@ -115,6 +115,8 @@ export class UserGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
+                verifyAccess(context.user, context.models.User.name);
+
                 const data = await context.models.User.findOne({
                     where: {
                         id: args.id,
@@ -132,6 +134,7 @@ export class UserGQL {
                 email: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
+                verifyAccess(context.user, context.models.User.name);
                 const data = await context.models.User.findOne({
                     where: {
                         email: args.email,
@@ -197,22 +200,6 @@ export class UserGQL {
 
                     if (!valid) return new Error("Invalid Password");
 
-                    const _roles = data.Roles.map((role) => {
-                        return {
-                            id: role.id,
-                            name: role.name,
-                            resources: role.Resources.map((res) => {
-                                return {
-                                    id: res.id,
-                                    name: res.name,
-                                    permissions: res.Permissions.map((perm) => {
-                                        return perm.name;
-                                    }),
-                                };
-                            }),
-                        };
-                    });
-
                     const _data = {
                         user: {
                             firstName: data.firstName,
@@ -220,15 +207,29 @@ export class UserGQL {
                             fullName: data.firstName + " " + data.lastName,
                             email: data.email,
                         },
-                        roles: _roles,
+                        roles: data.Roles.map((role) => {
+                            return {
+                                id: role.id,
+                                name: role.name,
+                                resources: role.Resources.map((res) => {
+                                    return {
+                                        id: res.id,
+                                        name: res.name,
+                                        permissions: res.Permissions.map(
+                                            (perm) => {
+                                                return perm.name;
+                                            }
+                                        ),
+                                    };
+                                }),
+                            };
+                        }),
                     };
 
-                    const token = createLoginToken({
+                    _data.token = createLoginToken({
                         userId: data.id,
                         payload: _data.roles,
                     });
-
-                    _data.token = token;
 
                     return _data;
                 }
@@ -249,6 +250,7 @@ export class UserGQL {
                 roleId: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
+                verifyAccess(context.user, context.models.User.name);
                 const hashed = await createHash(args.password);
 
                 const usrData = await context.models.User.create({
@@ -264,8 +266,8 @@ export class UserGQL {
                     const usrRole = await context.models.UserRole.create({
                         userId: usrData.id,
                         roleId: args.roleId,
-                        createdById: 1,
-                        updatedById: 1,
+                        createdById: context.user.userId,
+                        updatedById: context.user.userId,
                     });
                 }
 
@@ -276,12 +278,13 @@ export class UserGQL {
         deactivate: () => ({
             type: this.model,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLInt) },
+                id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
+                verifyAccess(context.user, context.models.User.name);
                 const data = await context.models.user.update({
                     active: false,
-                    updateById: 1,
+                    updateById: context.user.userId,
                     updatedAt: Date.now,
                     where: {
                         id: args.id,
@@ -299,9 +302,10 @@ export class UserGQL {
                 roleId: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
+                verifyAccess(context.user, context.models.User.name);
                 const data = await context.models.UserRole.update({
                     roleId: args.roleId,
-                    updatedById: 1,
+                    updatedById: context.user.userId,
                     updatedAt: Date.now,
                     where: {
                         userId: args.userId,
@@ -320,7 +324,7 @@ export class UserGQL {
                 const hashed = await createHash(args.password);
                 const data = await context.models.User.update({
                     password: hashed,
-                    updatedById: 1,
+                    updatedById: context.user.userId,
                     updatedAt: Date.now,
                     where: {
                         id: args.userId,
