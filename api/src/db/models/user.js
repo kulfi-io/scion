@@ -12,14 +12,17 @@ module.exports = (sequelize, DataTypes) => {
             User.belongsTo(models.User, {
                 as: "createdBy",
                 foreignkey: "createdById",
+                foreignKeyConstraint: true,
             });
             User.belongsTo(models.User, {
                 as: "updatedBy",
                 foreignkey: "updatedById",
+                foreignKeyConstraint: true,
             });
             User.belongsToMany(models.Role, {
                 through: models.UserRole,
-                foreignKey: 'userId'
+                foreignKey: "userId",
+                foreignKeyConstraint: true,
             });
         }
     }

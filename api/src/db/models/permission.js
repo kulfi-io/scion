@@ -12,21 +12,23 @@ module.exports = (sequelize, DataTypes) => {
             Permission.belongsTo(models.User, {
                 as: "createdBy",
                 foreignkey: "createdById",
+                foreignKeyConstraint: true,
             });
             Permission.belongsTo(models.User, {
                 as: "updatedBy",
                 foreignkey: "updatedById",
+                foreignKeyConstraint: true,
             });
             Permission.belongsToMany(models.Role, {
                 through: models.ResourceRole,
                 foreignKey: "permissionId",
+                foreignKeyConstraint: true,
             });
             Permission.belongsToMany(models.Resource, {
                 through: models.ResourceRole,
                 foreignKey: "permissionId",
+                foreignKeyConstraint: true,
             });
-           
-            
         }
     }
     Permission.init(

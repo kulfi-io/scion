@@ -12,21 +12,22 @@ module.exports = (sequelize, DataTypes) => {
             Resource.belongsTo(models.User, {
                 as: "createdBy",
                 foreignkey: "createdById",
+                foreignKeyConstraint: true,
             });
             Resource.belongsTo(models.User, {
                 as: "updatedBy",
                 foreignkey: "updatedById",
+                foreignKeyConstraint: true,
             });
             Resource.belongsToMany(models.Role, {
                 through: models.ResourceRole,
-                foreignKey: 'resourceId'
+                foreignKey: "resourceId",
             });
             Resource.belongsToMany(models.Permission, {
                 through: models.ResourceRole,
-                foreignKey: 'resourceId'
+                foreignKey: "resourceId",
+                foreignKeyConstraint: true,
             });
-            
-            
         }
     }
     Resource.init(

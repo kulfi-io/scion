@@ -48,7 +48,7 @@ module.exports = {
             },
         });
 
-        await queryInterface.addIndex("Roles", ["id", "name"]);
+        // await queryInterface.addIndex("Roles", ["id", "name"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("Roles");

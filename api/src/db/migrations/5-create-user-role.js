@@ -55,7 +55,7 @@ module.exports = {
             }
         });
 
-        await queryInterface.addIndex("UserRoles", ["userId", "roleId", "active"]);
+        // await queryInterface.addIndex("UserRoles", ["userId", "roleId", "active"]);
         
     },
     down: async (queryInterface, Sequelize) => {

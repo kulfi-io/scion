@@ -12,10 +12,12 @@ module.exports = (sequelize, DataTypes) => {
             UserRole.belongsTo(models.User, {
                 as: "createdBy",
                 foreignKey: "createdById",
+                foreignKeyConstraint: true,
             });
             UserRole.belongsTo(models.User, {
                 as: "updatedBy",
                 foreignKey: "updatedById",
+                foreignKeyConstraint: true,
             });
         }
     }
