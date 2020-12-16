@@ -63,20 +63,9 @@ module.exports = {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.fn("NOW"),
             }
-        },{
-            indexes: [
-                {
-                    unqique: true,
-                    fields: ["roleId", "resourceId", "permissionId", "active"],
-                },
-                {
-                    unique: false,
-                    fields: ["active"],
-                },
-            ],
-        }
-        
-        );
+        });
+
+        await queryInterface.addIndex("ResourceRoles", ["roleId", "resourceId", "permissionId", "active"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("ResourceRoles");

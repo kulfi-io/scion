@@ -47,18 +47,9 @@ module.exports = {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.fn('NOW')
             },
-        },{
-            indexes: [
-                {
-                    unique: true,
-                    fields: ["id"],
-                },
-                {
-                    unique: false,
-                    fields: ["active"],
-                },
-            ],
         });
+
+        await queryInterface.addIndex("Resources", ["id", "name"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("Resources");

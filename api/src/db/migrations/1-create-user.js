@@ -56,22 +56,10 @@ module.exports = {
                 type: Sequelize.DATE,
                 defaultValue: Sequelize.fn('NOW')
             },
-        },{
-            indexes: [
-                {
-                    unique: true,
-                    fields: ["id"],
-                },{
-                    unique: true,
-                    fields: ["email"]
-                },
-                {
-                    unique: false,
-                    fields: ["active"],
-                },
-            ],
         }
         );
+
+        await queryInterface.addIndex("Users", ["id", "firstName", "lastName", "email"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("Users");

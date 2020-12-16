@@ -52,8 +52,6 @@ export const getLoginTokenData = (req) => {
             };
         }
     }
-
-    throw new Error("Not Authenticated");
 };
 
 export const GraphQLScalarDate = new GraphQLScalarType({
@@ -68,6 +66,8 @@ export const GraphQLScalarDate = new GraphQLScalarType({
 });
 
 export const verifyAccess = (data, modelName) => {
+    if (!data) throw new Error("Not Authenticated");
+
     const result = getResource(data, modelName);
     if (!result.length)
         throw new Error(`User does not have access to resource`);
@@ -75,9 +75,6 @@ export const verifyAccess = (data, modelName) => {
     return result;
 };
 
-
 const getResource = (data, modelName) => {
-    return data.role[0].resources.filter(
-        (x) => x.name === modelName
-    );
+    return data.role[0].resources.filter((x) => x.name === modelName);
 };
