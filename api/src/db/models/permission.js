@@ -1,6 +1,6 @@
-"use strict";
-const { Model } = require("sequelize");
-module.exports = (sequelize, DataTypes) => {
+import { Model } from "sequelize";
+
+const permission = (sequelize, DataTypes) => {
     class Permission extends Model {
         /**
          * Helper method for defining associations.
@@ -43,3 +43,5 @@ module.exports = (sequelize, DataTypes) => {
     );
     return Permission;
 };
+
+export default permission;
