@@ -27,6 +27,9 @@ const resourceRole = (sequelize, DataTypes) => {
             resourceId: DataTypes.STRING,
             permissionId: DataTypes.STRING,
             active: DataTypes.BOOLEAN,
+            createdById: DataTypes.INTEGER,
+            updatedById: DataTypes.INTEGER,
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,

@@ -48,7 +48,6 @@ module.exports = {
             },
         });
 
-        // await queryInterface.addIndex("Permissions", ["id", "name"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("Permissions");

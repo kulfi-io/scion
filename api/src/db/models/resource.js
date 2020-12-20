@@ -34,6 +34,9 @@ const resource = (sequelize, DataTypes) => {
             name: DataTypes.STRING,
             description: DataTypes.STRING,
             active: DataTypes.BOOLEAN,
+            createdById: DataTypes.INTEGER,
+            updatedById: DataTypes.INTEGER,
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,

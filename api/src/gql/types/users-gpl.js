@@ -4,6 +4,7 @@ import {
     GraphQLNonNull,
     GraphQLObjectType,
     GraphQLString,
+    GraphQLBoolean,
 } from "graphql";
 import {
     comparePassword,
@@ -11,6 +12,7 @@ import {
     createLoginToken,
     verifyAccess,
     GraphQLScalarDate,
+    isAuthorizedToViewAll,
 } from "../../utils";
 
 export class UserGQL {
@@ -42,6 +44,7 @@ export class UserGQL {
         fields: {
             id: { type: GraphQLInt },
             name: { type: GraphQLString },
+            isDefault: { type: GraphQLBoolean },
             resources: { type: GraphQLList(this.resourceModel) },
         },
     });
@@ -64,6 +67,7 @@ export class UserGQL {
             firstName: { type: GraphQLString },
             lastName: { type: GraphQLString },
             email: { type: GraphQLString },
+            verified: { type: GraphQLBoolean },
             createdBy: { type: this.displayModel },
             updatedBy: { type: this.displayModel },
             createdAt: { type: GraphQLScalarDate },
@@ -75,7 +79,8 @@ export class UserGQL {
             type: new GraphQLList(this.model),
             args: {},
             resolve: async (input, args, context) => {
-                verifyAccess(context.user, context.models.User.name);
+                const resource = verifyAccess(context.user, context.models.User.name);
+                isAuthorizedToViewAll(resource);
 
                 const data = await context.models.User.findAll({
                     where: {
@@ -154,6 +159,13 @@ export class UserGQL {
             },
             resolve: async (input, args, context) => {
                 const data = await context.models.User.findOne({
+                    attributes: [
+                        "id",
+                        "firstName",
+                        "lastName",
+                        "email",
+                        "password",
+                    ],
                     where: {
                         active: true,
                         email: args.email,
@@ -183,13 +195,6 @@ export class UserGQL {
                             ],
                         },
                     ],
-                    attributes: [
-                        "id",
-                        "firstName",
-                        "lastName",
-                        "email",
-                        "password",
-                    ],
                 });
 
                 if (data && args.password && data.password) {
@@ -211,24 +216,37 @@ export class UserGQL {
                             return {
                                 id: role.id,
                                 name: role.name,
-                                resources: role.Resources.map((res) => {
-                                    return {
-                                        id: res.id,
-                                        name: res.name,
-                                        permissions: res.Permissions.map(
-                                            (perm) => {
-                                                return perm.name;
-                                            }
-                                        ),
-                                    };
-                                }),
+                                isDefault: role.UserRole.isDefault,
+                                resources:
+                                    role.UserRole.isDefault === true
+                                        ? role.Resources.map((res) => {
+                                              return {
+                                                  id: res.id,
+                                                  name: res.name,
+                                                  permissions: res.Permissions.map(
+                                                      (perm) => {
+                                                          return perm.name;
+                                                      }
+                                                  ),
+                                              };
+                                          })
+                                        : [],
                             };
                         }),
                     };
+                
 
                     _data.token = createLoginToken({
                         userId: data.id,
-                        payload: _data.roles,
+                        created: Date.now,
+                        payload: {
+                            selected: _data.roles.filter(
+                                (x) => x.isDefault === true
+                            ),
+                            roles: _data.roles.filter(
+                                (x) => x.isDefault === false
+                            ),
+                        },
                     });
 
                     return _data;
@@ -253,25 +271,29 @@ export class UserGQL {
                 verifyAccess(context.user, context.models.User.name);
                 const hashed = await createHash(args.password);
 
-                const usrData = await context.models.User.create({
+                // create user
+                const data = await context.models.User.create({
                     firstName: args.firstName,
                     lastName: args.lastName,
                     email: args.email,
                     password: hashed,
-                    createdById: 1,
-                    updatedById: 1,
+                    createdById: context.user.userId,
+                    updatedById: context.user.userId,
                 });
 
-                if (usrData.id) {
+                // Assign user role and set default
+                if (data.id) {
+                    // user role
                     const usrRole = await context.models.UserRole.create({
-                        userId: usrData.id,
+                        userId: data.id,
                         roleId: args.roleId,
+                        isDefault: true,
                         createdById: context.user.userId,
                         updatedById: context.user.userId,
                     });
                 }
 
-                return usrData;
+                return data;
             },
         }),
 
@@ -295,33 +317,16 @@ export class UserGQL {
             },
         }),
 
-        changeUserRole: () => ({
+        changePassword: () => ({
             type: this.model,
             args: {
                 userId: { type: GraphQLNonNull(GraphQLInt) },
-                roleId: { type: GraphQLNonNull(GraphQLInt) },
-            },
-            resolve: async (input, args, context) => {
-                verifyAccess(context.user, context.models.User.name);
-                const data = await context.models.UserRole.update({
-                    roleId: args.roleId,
-                    updatedById: context.user.userId,
-                    updatedAt: Date.now,
-                    where: {
-                        userId: args.userId,
-                    },
-                });
-            },
-        }),
-
-        resetPassword: () => ({
-            type: this.model,
-            args: {
-                userId: { type: GraphQLNonNull(GraphQLInt) },
+                oldPassword: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
                 const hashed = await createHash(args.password);
+
                 const data = await context.models.User.update({
                     password: hashed,
                     updatedById: context.user.userId,

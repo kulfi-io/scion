@@ -40,6 +40,5 @@ Object.keys(models).forEach((key) => {
 });
 
 db.conn = sequelize;
-db.ORM = Sequelize;
 
 export default db;

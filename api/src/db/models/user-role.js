@@ -24,7 +24,11 @@ const userRole = (sequelize, DataTypes) => {
         {
             userId: DataTypes.INTEGER,
             roleId: DataTypes.INTEGER,
+            isDefault: DataTypes.BOOLEAN,
             active: DataTypes.BOOLEAN,
+            createdById: DataTypes.INTEGER,
+            updatedById: DataTypes.INTEGER,
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,

@@ -29,6 +29,11 @@ module.exports = {
                 allowNull: false,
                 defaultValue: true,
             },
+            isDefault: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                DefaultValue: false
+            },
             createdById: {
                 type: Sequelize.INTEGER,
                 references: {
@@ -55,7 +60,6 @@ module.exports = {
             }
         });
 
-        // await queryInterface.addIndex("UserRoles", ["userId", "roleId", "active"]);
         
     },
     down: async (queryInterface, Sequelize) => {

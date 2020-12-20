@@ -15,7 +15,7 @@ app.use("/api/v1", cors(), (req, res) => {
     res.setHeader("Access-Control-Allow-Methods", "POST");
     graphqlHTTP({
         schema: Schema,
-        graphiql: process.env.NODE_ENV === "development" ,
+        graphiql: process.env.NODE_ENV === "development",
         context: { models: db.conn.models, user: getLoginTokenData(req) },
     })(req, res);
 });

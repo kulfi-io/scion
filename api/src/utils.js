@@ -7,6 +7,14 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV}`,
 });
 
+const getResource = (data, modelName) => {
+    return data.selected[0].resources.filter((x) => x.name === modelName);
+};
+
+const getTokenPayload = (token) => {
+    return jwt.verify(token, process.env.JWT_SECRET);
+};
+
 export const createHash = async (data) => {
     return await bcrypt.hash(data, parseInt(process.env.CRYPT_SALT));
 };
@@ -17,10 +25,6 @@ export const comparePassword = async (password, hashed) => {
 
 export const createLoginToken = (data) => {
     return jwt.sign(data, process.env.JWT_SECRET);
-};
-
-const getTokenPayload = (token) => {
-    return jwt.verify(token, process.env.JWT_SECRET);
 };
 
 export const getLoginTokenData = (req) => {
@@ -36,11 +40,12 @@ export const getLoginTokenData = (req) => {
 
             return {
                 userId: data.userId,
-                role: data.payload.map((rol) => {
+                selected: data.payload.selected.map((sel) => {
                     return {
-                        id: rol.id,
-                        name: rol.name,
-                        resources: rol.resources.map((res) => {
+                        id: sel.id,
+                        name: sel.name,
+                        isDefault: sel.isDefault,
+                        resources: sel.resources.map((res) => {
                             return {
                                 id: res.id,
                                 name: res.name,
@@ -49,6 +54,7 @@ export const getLoginTokenData = (req) => {
                         }),
                     };
                 }),
+                roles: data.payload.roles,
             };
         }
     }
@@ -75,6 +81,36 @@ export const verifyAccess = (data, modelName) => {
     return result;
 };
 
-const getResource = (data, modelName) => {
-    return data.role[0].resources.filter((x) => x.name === modelName);
+export const isAuthorizedToDeactivate = (data) => {};
+
+export const isAuthorizedToViewAll = (data) => {
+    if (!data || !data.length) throw new Error("Not Authorized");
+
+    const perms = data[0].permissions;
+
+    if (
+        perms.indexOf("canManageInSpace") !== -1 ||
+        perms.indexOf("canManageAccrossSpace") !== -1
+    ) {
+        return true;
+    }
+
+    throw new Error("User is not authorized");
+};
+
+export const isAuthorizedToEdit = () => {};
+
+export const isAuthorizedToCreate = (data) => {
+    if (!data) throw new Error("Not Authenticated");
+    const perms = data.resources[0].permissions;
+
+    if (
+        perms.indexOf("canManageInSpace") !== -1 ||
+        perms.indexOf("canManageAccrossSpace") !== -1 ||
+        perms.indexOf("canCreate") !== -1
+    ) {
+        return true;
+    }
+
+    throw new Error("User is not authorized");
 };

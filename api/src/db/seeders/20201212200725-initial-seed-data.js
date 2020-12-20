@@ -11,6 +11,7 @@ module.exports = {
          *   isBetaMember: false
          * }], {});
          */
+            // User // password = password
         await queryInterface.bulkInsert(
             "Users",
             [
@@ -18,12 +19,12 @@ module.exports = {
                     firstName: "Admin",
                     lastName: "User",
                     email: "admin@scion.com",
-                    password: "Admin",
+                    password: "$2b$10$Dd556/LUlbWMSOmQWcQ7VeUG46CoEJj7pY/807.F1xfc89hwd1yUW",
                 },
             ],
             {}
         );
-
+            // Roles
         await queryInterface.bulkInsert(
             "Roles",
             [
@@ -69,7 +70,7 @@ module.exports = {
             ],
             {}
         );
-
+            // Resources
         await queryInterface.bulkInsert(
             "Resources",
             [
@@ -134,7 +135,7 @@ module.exports = {
             ],
             {}
         );
-
+            // Permissions
         await queryInterface.bulkInsert(
             "Permissions",
             [
@@ -176,13 +177,14 @@ module.exports = {
                
             ]
         );
-
+            // User Role
         await queryInterface.bulkInsert(
             "UserRoles",
             [
                 {
                     roleId: 1,
                     userId: 1,
+                    isDefault: true,
                     createdById: 1,
                     updatedById: 1,
                 },
@@ -190,9 +192,30 @@ module.exports = {
             {}
         );
 
+            // ResourceRole
+            // Doner
+            // Executive Officer
         await queryInterface.bulkInsert(
             "ResourceRoles",
             [
+
+                {
+                    roleId: 6,
+                    resourceId: 5,
+                    permissionId: 1,
+                    createdById: 1,
+                    updatedById:1
+                },
+                {
+                    roleId: 6,
+                    resourceId: 7,
+                    permissionId: 1,
+                    createdById: 1,
+                    updatedById:1
+                },
+
+
+
                 {
                     roleId: 1,
                     resourceId: 1,

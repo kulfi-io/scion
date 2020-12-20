@@ -65,7 +65,6 @@ module.exports = {
             }
         });
 
-        // await queryInterface.addIndex("ResourceRoles", ["roleId", "resourceId", "permissionId", "active"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("ResourceRoles");

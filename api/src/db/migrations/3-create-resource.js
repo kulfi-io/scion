@@ -49,7 +49,6 @@ module.exports = {
             },
         });
 
-        // await queryInterface.addIndex("Resources", ["id", "name"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("Resources");

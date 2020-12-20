@@ -27,6 +27,11 @@ module.exports = {
                 type: Sequelize.STRING(100),
                 allowNull: false
             },
+            verified: {
+                type: Sequelize.BOOLEAN,
+                allowNull: false,
+                defaultValue: false
+            },
             active: {
                 type: Sequelize.BOOLEAN,
                 allowNull: false,
@@ -59,7 +64,6 @@ module.exports = {
         }
         );
 
-        // await queryInterface.addIndex("Users", ["id", "firstName", "lastName", "email"]);
     },
     down: async (queryInterface, Sequelize) => {
         await queryInterface.dropTable("Users");

@@ -32,7 +32,11 @@ const user = (sequelize, DataTypes) => {
             lastName: DataTypes.STRING,
             email: DataTypes.STRING,
             password: DataTypes.STRING,
+            verified: DataTypes.BOOLEAN,
             active: DataTypes.BOOLEAN,
+            createdById: DataTypes.INTEGER,
+            updatedById: DataTypes.INTEGER,
+            updatedAt: DataTypes.DATE,
         },
         {
             sequelize,
