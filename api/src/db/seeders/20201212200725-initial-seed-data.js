@@ -140,22 +140,7 @@ module.exports = {
             "Permissions",
             [
                 {
-                    name: 'canView',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canEdit',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canCreate',
-                    createdById: 1,
-                    updatedById: 1
-                },
-                {
-                    name: 'canDeactivate',
+                    name: 'canViewResource',
                     createdById: 1,
                     updatedById: 1
                 },
@@ -165,12 +150,17 @@ module.exports = {
                     updatedById: 1
                 },
                 {
-                    name: 'canManageInSpace',
+                    name: 'canManageSelf',
                     createdById: 1,
                     updatedById: 1
                 },
                 {
-                    name: 'canManageAccrossSpaces',
+                    name: 'canManage',
+                    createdById: 1,
+                    updatedById: 1
+                },
+                {
+                    name: 'canManageAccrossAll',
                     createdById: 1,
                     updatedById: 1
                 }
@@ -208,6 +198,13 @@ module.exports = {
                 },
                 {
                     roleId: 6,
+                    resourceId: 6,
+                    permissionId: 3,
+                    createdById: 1,
+                    updatedById:1
+                },
+                {
+                    roleId: 6,
                     resourceId: 7,
                     permissionId: 1,
                     createdById: 1,
@@ -226,24 +223,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 1,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 1,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 1,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
+             
                
                 {
                     roleId: 1,
@@ -255,24 +239,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 2,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 2,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 2,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
+                
 
                 {
                     roleId: 1,
@@ -284,24 +255,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 3,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 3,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 3,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
+               
 
                 {
                     roleId: 1,
@@ -313,24 +271,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 3,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 3,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 3,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
+               
 
                 {
                     roleId: 1,
@@ -342,25 +287,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 4,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 4,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 4,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-
+               
                 {
                     roleId: 1,
                     resourceId: 5,
@@ -379,31 +310,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 6,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 6,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 6,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 6,
-                    permissionId: 6,
-                    createdById: 1,
-                    updatedById: 1,
-                },
+                
 
                 {
                     roleId: 1,
@@ -415,25 +326,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 7,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 7,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 7,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-
+               
                 {
                     roleId: 1,
                     resourceId: 8,
@@ -444,25 +341,11 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 8,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 8,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 8,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-
+                
                 {
                     roleId: 1,
                     resourceId: 9,
@@ -473,25 +356,10 @@ module.exports = {
                 {
                     roleId: 1,
                     resourceId: 9,
-                    permissionId: 2,
+                    permissionId: 5,
                     createdById: 1,
                     updatedById: 1,
                 },
-                {
-                    roleId: 1,
-                    resourceId: 9,
-                    permissionId: 3,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-                {
-                    roleId: 1,
-                    resourceId: 9,
-                    permissionId: 4,
-                    createdById: 1,
-                    updatedById: 1,
-                },
-
     
             ],
             {}

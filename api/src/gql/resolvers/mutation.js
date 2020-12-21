@@ -6,6 +6,8 @@ const Mutation = new GraphQLObjectType({
     type: "Query",
     fields: () => ({
         addUser: User.mutations.create(),
+        deactivateUser: User.mutations.deactivate(),
+        changePassword: User.mutations.changePassword(),
     }),
 });
 

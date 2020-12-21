@@ -81,16 +81,14 @@ export const verifyAccess = (data, modelName) => {
     return result;
 };
 
-export const isAuthorizedToDeactivate = (data) => {};
-
-export const isAuthorizedToViewAll = (data) => {
+export const authorizedToManage = (data) => {
     if (!data || !data.length) throw new Error("Not Authorized");
 
     const perms = data[0].permissions;
 
     if (
-        perms.indexOf("canManageInSpace") !== -1 ||
-        perms.indexOf("canManageAccrossSpace") !== -1
+        perms.indexOf("canManage") !== -1 ||
+        perms.indexOf("canManageAccrossAll") !== -1
     ) {
         return true;
     }
@@ -98,19 +96,10 @@ export const isAuthorizedToViewAll = (data) => {
     throw new Error("User is not authorized");
 };
 
-export const isAuthorizedToEdit = () => {};
+export const targetIsSelf = (data) => {
+    if (!data.userId || !data.target) throw new Error("Bad data");
 
-export const isAuthorizedToCreate = (data) => {
-    if (!data) throw new Error("Not Authenticated");
-    const perms = data.resources[0].permissions;
+    if (data.userId !== data.target) throw new Error("Unauthorized action");
 
-    if (
-        perms.indexOf("canManageInSpace") !== -1 ||
-        perms.indexOf("canManageAccrossSpace") !== -1 ||
-        perms.indexOf("canCreate") !== -1
-    ) {
-        return true;
-    }
-
-    throw new Error("User is not authorized");
+    return true;
 };

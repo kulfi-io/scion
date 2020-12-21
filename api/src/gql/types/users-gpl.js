@@ -12,7 +12,8 @@ import {
     createLoginToken,
     verifyAccess,
     GraphQLScalarDate,
-    isAuthorizedToViewAll,
+    authorizedToManage,
+    targetIsSelf,
 } from "../../utils";
 
 export class UserGQL {
@@ -49,6 +50,16 @@ export class UserGQL {
         },
     });
 
+    roleDisplayModel = new GraphQLObjectType({
+        name: "roleDisplyModel",
+        type: "query",
+        fields: {
+            id: { type: GraphQLInt },
+            name: { type: GraphQLString },
+            isDefault: { type: GraphQLBoolean },
+        },
+    });
+
     loginModel = new GraphQLObjectType({
         name: "loginModel",
         type: "query",
@@ -71,6 +82,8 @@ export class UserGQL {
             createdBy: { type: this.displayModel },
             updatedBy: { type: this.displayModel },
             createdAt: { type: GraphQLScalarDate },
+            updatedAt: { type: GraphQLScalarDate },
+            roles: { type: GraphQLList(this.roleDisplayModel) },
         },
     });
 
@@ -79,8 +92,11 @@ export class UserGQL {
             type: new GraphQLList(this.model),
             args: {},
             resolve: async (input, args, context) => {
-                const resource = verifyAccess(context.user, context.models.User.name);
-                isAuthorizedToViewAll(resource);
+                const resource = verifyAccess(
+                    context.user,
+                    context.models.User.name
+                );
+                authorizedToManage(resource);
 
                 const data = await context.models.User.findAll({
                     where: {
@@ -107,10 +123,38 @@ export class UserGQL {
                                 "email",
                             ],
                         },
+                        {
+                            model: context.models.Role,
+                            where: {
+                                active: true,
+                            },
+                            attributes: ["id", "name"],
+                        },
                     ],
                 });
 
-                return data;
+                const _data = data.map((user) => {
+                    return {
+                        id: user.id,
+                        firstName: user.firstName,
+                        lastName: user.lastName,
+                        email: user.email,
+                        verified: user.verified,
+                        roles: user.Roles.map((role) => {
+                            return {
+                                id: role.id,
+                                name: role.name,
+                                isDefault: role.UserRole.isDefault,
+                            };
+                        }),
+                        createdAt: user.createdAt,
+                        createdBy: user.createdBy,
+                        updatedAt: user.updatedAt,
+                        updatedBy: user.updatedBy,
+                    };
+                });
+
+                return _data;
             },
         }),
 
@@ -120,7 +164,11 @@ export class UserGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                verifyAccess(context.user, context.models.User.name);
+                const resource = verifyAccess(
+                    context.user,
+                    context.models.User.name
+                );
+                authorizedToManage(resource);
 
                 const data = await context.models.User.findOne({
                     where: {
@@ -139,7 +187,11 @@ export class UserGQL {
                 email: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                verifyAccess(context.user, context.models.User.name);
+                const resource = verifyAccess(
+                    context.user,
+                    context.models.User.name
+                );
+                authorizedToManage(resource);
                 const data = await context.models.User.findOne({
                     where: {
                         email: args.email,
@@ -234,7 +286,6 @@ export class UserGQL {
                             };
                         }),
                     };
-                
 
                     _data.token = createLoginToken({
                         userId: data.id,
@@ -268,7 +319,11 @@ export class UserGQL {
                 roleId: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                verifyAccess(context.user, context.models.User.name);
+                const resource = verifyAccess(
+                    context.user,
+                    context.models.User.name
+                );
+                authorizedToManage(resource);
                 const hashed = await createHash(args.password);
 
                 // create user
@@ -303,7 +358,11 @@ export class UserGQL {
                 id: { type: GraphQLNonNull(GraphQLInt) },
             },
             resolve: async (input, args, context) => {
-                verifyAccess(context.user, context.models.User.name);
+                const resource = verifyAccess(
+                    context.user,
+                    context.models.User.name
+                );
+                authorizedToManage(resource);
                 const data = await context.models.user.update({
                     active: false,
                     updateById: context.user.userId,
@@ -317,24 +376,58 @@ export class UserGQL {
             },
         }),
 
+        // communication module
+        // user recieves an email with a reset password request
+        // needs to be constructed
+        // resetPassword: () => ({})
+
         changePassword: () => ({
             type: this.model,
             args: {
-                userId: { type: GraphQLNonNull(GraphQLInt) },
+                email: { type: GraphQLNonNull(GraphQLString) },
                 oldPassword: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                const hashed = await createHash(args.password);
+                verifyAccess(context.user, context.models.User.name);
 
-                const data = await context.models.User.update({
-                    password: hashed,
-                    updatedById: context.user.userId,
-                    updatedAt: Date.now,
+                let data = await context.models.User.findOne({
+                    attributes: ["id", "email", "password"],
                     where: {
-                        id: args.userId,
+                        email: args.email,
+                        active: true,
                     },
                 });
+
+                if (data) {
+                    const valid = await comparePassword(
+                        args.oldPassword,
+                        data.password
+                    );
+
+                    if (!valid)
+                        throw new Error("User or password is incorrect!");
+
+                    if (
+                        targetIsSelf({
+                            userId: context.user.userId,
+                            target: data.id,
+                        })
+                    ) {
+                        const hashed = await createHash(args.password);
+
+                        data = await context.models.User.update({
+                            password: hashed,
+                            updatedById: context.user.userId,
+                            updatedAt: Date.now,
+                            where: {
+                                id: data.id,
+                            },
+                        });
+
+                        return data;
+                    }
+                }
 
                 return data;
             },
