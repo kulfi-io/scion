@@ -37,6 +37,7 @@ export const getLoginTokenData = (req) => {
             }
 
             const data = getTokenPayload(token);
+            console.log(data.selected);
 
             return {
                 userId: data.userId,

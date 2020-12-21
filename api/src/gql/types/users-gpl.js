@@ -51,7 +51,7 @@ export class UserGQL {
     });
 
     roleDisplayModel = new GraphQLObjectType({
-        name: "roleDisplyModel",
+        name: "roleDisplayModel",
         type: "query",
         fields: {
             id: { type: GraphQLInt },
