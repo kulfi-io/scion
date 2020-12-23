@@ -7,14 +7,29 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV}`,
 });
 
+/**
+ * getReource
+ * @param {Object} data // {user: user, model:model}
+ * returns targeted resource for the selected role
+ */
 const getResource = (data) => {
     return data.user.selected[0].resources.filter((x) => x.name === data.model);
 };
 
+/**
+ *
+ * @param {string} token
+ * return decrpted token value
+ */
 const getTokenPayload = (token) => {
     return jwt.verify(token, process.env.JWT_SECRET);
 };
 
+/**
+ *
+ * @param {object} data // {user: user, model:model}
+ * return resource
+ */
 const verifyResourceAccess = (data) => {
     const result = getResource(data);
     if (!result.length)
@@ -23,6 +38,11 @@ const verifyResourceAccess = (data) => {
     return result;
 };
 
+/**
+ *
+ * @param {model} data // {user: user, model: model}
+ * return managerial permissions
+ */
 const authorizedToManage = (data) => {
     if (!data || !data.length) throw new Error("Not Authorized");
 
@@ -38,6 +58,11 @@ const authorizedToManage = (data) => {
     throw new Error("User is not authorized");
 };
 
+/**
+ *
+ * @param {object} data // {user: user model: model}
+ * returns self manage permissions
+ */
 const authorizedToManageSelf = (data) => {
     if (!data || !data.length) throw new Error("Not Authorized");
 
@@ -50,18 +75,40 @@ const authorizedToManageSelf = (data) => {
     throw new Error("User is not authorized");
 };
 
+/**
+ *
+ * @param {string} data
+ * retuns hash
+ */
 export const createHash = async (data) => {
     return await bcrypt.hash(data.toString(), parseInt(process.env.CRYPT_SALT));
 };
 
+/**
+ *
+ * @param {string} data
+ * @param {sting} hashed
+ * returns compared value
+ */
 export const compareData = async (data, hashed) => {
     return await bcrypt.compare(data.toString(), hashed.toString());
 };
 
+/**
+ *
+ * @param {object|string} data
+ * return token
+ */
 export const createLoginToken = (data) => {
     return jwt.sign(data, process.env.JWT_SECRET);
 };
 
+/**
+ *
+ * @param {object} req // request object
+ * returns
+ * {user: userId, selected: selected, roles:roles} as crypted tolen
+ */
 export const getLoginTokenData = (req) => {
     if (req) {
         const authHeader = req.headers.authorization;
@@ -95,6 +142,10 @@ export const getLoginTokenData = (req) => {
     }
 };
 
+/**
+ * GraphQLScalarDate
+ * return graphQlObject for date datatype
+ */
 export const GraphQLScalarDate = new GraphQLScalarType({
     name: "GraphQLScalarDate",
     description: "Return date",
@@ -106,6 +157,13 @@ export const GraphQLScalarDate = new GraphQLScalarType({
     },
 });
 
+/**
+ *
+ * @param {object} data // {user: user, model:modelName}
+ * checks to see if user is authorized
+ * to alter resource
+ * Return Boolean/Error
+ */
 export const isValid = async (data) => {
     if (!data || !data.user) throw new Error("Not Authenticated");
 
@@ -119,6 +177,13 @@ export const isValid = async (data) => {
     throw new Error("Unauthorized Requestor");
 };
 
+/**
+ *
+ * @param {object} data // {user: user, model:modelName}
+ * checks to see if user is authorized
+ * to maage self
+ * Return Boolean/Error
+ */
 export const isValidSelf = async (data) => {
     if (!data || !data.user) throw new Error("Not Authenticated");
 
