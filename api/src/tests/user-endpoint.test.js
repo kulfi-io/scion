@@ -335,7 +335,7 @@ describe("Executive Officer Tests", () => {
             });
     });
 
-    test("authentication-failure-forcreate-user", async (done) => {
+    test("authentication-failure-for-create-user", async (done) => {
         request
             .post(gplUrl)
             .send({
@@ -401,6 +401,28 @@ describe("Executive Officer Tests", () => {
 
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.addUser.id).toBeTruthy();
+                done();
+            });
+    });
+
+    test("duplicate-email-create-user-returns-validation-error", async (done) => {
+        request
+            .post(gplUrl)
+            .send({
+                query: `mutation {
+                    addUser(firstName: "Lucy", lastName: "Dog", email: "lucy-dog@scion.com", password: "password", roleId: 1, requestor: "${requestor}") {
+                        id
+                    }
+                }`,
+            })
+            .set("Accept", "application/json")
+            .set("authorization", token)
+            .expect("Content-type", /json/)
+            .expect(200)
+            .end((err, res) => {
+                if (err) return done(err);
+
+                expect(res.body.errors[0].message).toEqual("Validation error");
                 done();
             });
     });
