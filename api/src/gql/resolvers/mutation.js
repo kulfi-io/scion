@@ -3,7 +3,7 @@ import User from "../types/users-gpl";
 
 const Mutation = new GraphQLObjectType({
     name: "RootMutation",
-    type: "Query",
+    type: "Mutation",
     fields: () => ({
         addUser: User.mutations.create(),
         deactivateUser: User.mutations.deactivate(),

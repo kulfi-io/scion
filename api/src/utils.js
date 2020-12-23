@@ -7,20 +7,55 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV}`,
 });
 
-const getResource = (data, modelName) => {
-    return data.selected[0].resources.filter((x) => x.name === modelName);
+const getResource = (data) => {
+    return data.user.selected[0].resources.filter((x) => x.name === data.model);
 };
 
 const getTokenPayload = (token) => {
     return jwt.verify(token, process.env.JWT_SECRET);
 };
 
-export const createHash = async (data) => {
-    return await bcrypt.hash(data, parseInt(process.env.CRYPT_SALT));
+const verifyResourceAccess = (data) => {
+    const result = getResource(data);
+    if (!result.length)
+        throw new Error(`User does not have access to resource`);
+
+    return result;
 };
 
-export const comparePassword = async (password, hashed) => {
-    return await bcrypt.compare(password, hashed);
+const authorizedToManage = (data) => {
+    if (!data || !data.length) throw new Error("Not Authorized");
+
+    const perms = data[0].permissions;
+
+    if (
+        perms.indexOf("canManage") !== -1 ||
+        perms.indexOf("canManageAccrossAll") !== -1
+    ) {
+        return true;
+    }
+
+    throw new Error("User is not authorized");
+};
+
+const authorizedToManageSelf = (data) => {
+    if (!data || !data.length) throw new Error("Not Authorized");
+
+    const perms = data[0].permissions;
+
+    if (perms.indexOf("canManageSelf") !== -1) {
+        return true;
+    }
+
+    throw new Error("User is not authorized");
+};
+
+export const createHash = async (data) => {
+    return await bcrypt.hash(data.toString(), parseInt(process.env.CRYPT_SALT));
+};
+
+export const compareData = async (data, hashed) => {
+    return await bcrypt.compare(data.toString(), hashed.toString());
 };
 
 export const createLoginToken = (data) => {
@@ -37,7 +72,6 @@ export const getLoginTokenData = (req) => {
             }
 
             const data = getTokenPayload(token);
-            console.log(data.selected);
 
             return {
                 userId: data.userId,
@@ -72,35 +106,28 @@ export const GraphQLScalarDate = new GraphQLScalarType({
     },
 });
 
-export const verifyAccess = (data, modelName) => {
-    if (!data) throw new Error("Not Authenticated");
+export const isValid = async (data) => {
+    if (!data || !data.user) throw new Error("Not Authenticated");
 
-    const result = getResource(data, modelName);
-    if (!result.length)
-        throw new Error(`User does not have access to resource`);
+    if (!data.requestor) throw new Error("Invalid Requestor");
 
-    return result;
-};
-
-export const authorizedToManage = (data) => {
-    if (!data || !data.length) throw new Error("Not Authorized");
-
-    const perms = data[0].permissions;
-
-    if (
-        perms.indexOf("canManage") !== -1 ||
-        perms.indexOf("canManageAccrossAll") !== -1
-    ) {
-        return true;
+    if (await compareData(data.user.userId, data.requestor)) {
+        const resource = verifyResourceAccess(data);
+        return authorizedToManage(resource);
     }
 
-    throw new Error("User is not authorized");
+    throw new Error("Unauthorized Requestor");
 };
 
-export const targetIsSelf = (data) => {
-    if (!data.userId || !data.target) throw new Error("Bad data");
+export const isValidSelf = async (data) => {
+    if (!data || !data.user) throw new Error("Not Authenticated");
 
-    if (data.userId !== data.target) throw new Error("Unauthorized action");
+    if (!data.requestor) throw new Error("Invalid Requestor");
 
-    return true;
+    if (await compareData(data.user.userId, data.requestor)) {
+        const resource = verifyResourceAccess(data);
+        return authorizedToManageSelf(resource);
+    }
+
+    throw new Error("Unauthorized Requestor");
 };

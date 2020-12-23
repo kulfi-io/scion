@@ -4,10 +4,18 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "NODE_ENV=development node index.js",
+        "dev-db-migrate-undo": "npx sequelize db:migrate:undo:all",
+        "dev-db-migrate": "npx sequelize db:migrate",
+        "dev-db-seed": "npx sequelize db:seed:all",
+        "dev-clean-seed": "npm run dev-db-migrate-undo && npm run dev-db-migrate && npm run dev-db-seed",
+        "start": "npm run dev-clean-seed && NODE_ENV=development node index.js",
+        "test-db-migrate-undo": "npx sequelize db:migrate:undo:all --env test",
+        "test-db-migrate": "npx sequelize db:migrate --env test",
+        "test-db-seed": "npx sequelize db:seed:all --env test",
         "dev-build": "webpack --mode development --config webpack.config.cjs",
         "build": "webpack --mode production --config webpack.config.cjs",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "pre-test": "npm run test-db-migrate-undo && npm run test-db-migrate && npm run test-db-seed",
+        "test": "npm run pre-test && NODE_ENV=test jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand"
     },
     "author": "Ashish Chatterjee",
     "license": "ISC",
@@ -39,5 +47,16 @@
         "jsonwebtoken": "^8.5.1",
         "pg-promise": "^10.8.1",
         "sequelize": "^6.3.5"
+    },
+    "directories": {
+        "test": "./api/src/tests/*.test.js"
+    },
+    "jest": {
+        "verbose": true,
+        "coveragePathIgnorePatterns": [
+            "/node_modules/",
+            "/build/"
+        ],
+        "bail": 1
     }
 }

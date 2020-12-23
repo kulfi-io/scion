@@ -11,7 +11,7 @@ const Query = new GraphQLObjectType({
         },
         users: User.queries.all(),
         userById: User.queries.activeById(),
-        usersByEmail: User.queries.activeByEmail(),
+        userByEmail: User.queries.activeByEmail(),
         login: User.queries.login(),
     }),
 });

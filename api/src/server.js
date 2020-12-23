@@ -8,9 +8,9 @@ import { getLoginTokenData } from "./utils";
 
 const app = express();
 
-app.use("/api", bodyparser.json({ limit: "1000mb" }));
-app.use("/api", bodyparser.urlencoded({ limit: "50mb", extended: true }));
-app.use("/api/v1", cors(), (req, res) => {
+app.use("/gql", bodyparser.json({ limit: "1000mb" }));
+app.use("/gql", bodyparser.urlencoded({ limit: "50mb", extended: true }));
+app.use("/gql/v1", cors(), (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "POST");
     graphqlHTTP({
