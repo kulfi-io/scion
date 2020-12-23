@@ -88,6 +88,12 @@ export class UserGQL {
     });
 
     queries = {
+        /***
+         * All: Return all active users
+         * args
+         * requestor  typeof string  //hashed id value
+         * returns list of users
+         */
         all: () => ({
             type: new GraphQLList(this.model),
             args: { requestor: { type: GraphQLNonNull(GraphQLString) } },
@@ -158,6 +164,13 @@ export class UserGQL {
             },
         }),
 
+        /***
+         * activeById: return one active user by id
+         * args:
+         *  id  typeof int
+         *  requestor typeof string //hashed id value
+         * returns a single user model
+         */
         activeById: () => ({
             type: this.model,
             args: {
@@ -182,6 +195,13 @@ export class UserGQL {
             },
         }),
 
+        /***
+         * activeByEmail: return one active user by email
+         * args:
+         *  email: string
+         *  requestor: string //hashed id value
+         * returns a single user model
+         */
         activeByEmail: () => ({
             type: this.model,
             args: {
@@ -205,6 +225,13 @@ export class UserGQL {
             },
         }),
 
+        /**
+         * login
+         * args:
+         *  email: string
+         *  password: string
+         * returns login model
+         */
         login: () => ({
             type: this.loginModel,
             args: {
@@ -312,6 +339,16 @@ export class UserGQL {
     };
 
     mutations = {
+        /**
+         * create: adds new user
+         * args:
+         *  firstName: string
+         *  lastName: string
+         *  email: string
+         *  roleId: int
+         *  requestor: string //hashed id value
+         * Return user model
+         */
         create: () => ({
             type: this.model,
             args: {
@@ -355,7 +392,13 @@ export class UserGQL {
                 return data;
             },
         }),
-
+        /**
+         * deactivate: sets the record inactive
+         * args
+         *  id: int
+         *  requestor: string // hashed id value
+         * Returns user model
+         */
         deactivate: () => ({
             type: this.model,
             args: {
@@ -405,6 +448,14 @@ export class UserGQL {
         // needs to be constructed
         // resetPassword: () => ({})
 
+        /**
+         * changePassword: changes user password
+         * args:
+         *  requestor: string // hashed id value
+         *  oldPassword: string // old password
+         *  password: string // new password
+         * Returns user model
+         */
         changePassword: () => ({
             type: this.model,
             args: {
