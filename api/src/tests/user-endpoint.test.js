@@ -19,7 +19,7 @@ const storeLoginData = (err, res) => {
     }
 };
 
-describe("Executive Officer Tests", () => {
+describe("Executive Officer Role Tests", () => {
     test("login", (done) => {
         request
             .post(gplUrl)
