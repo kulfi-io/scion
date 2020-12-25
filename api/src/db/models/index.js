@@ -4,25 +4,22 @@ import Resource from "./resource";
 import Role from "./role";
 import UserRole from "./user-role";
 import User from "./user";
-
+import dotenv from "dotenv";
 import Sequelize from "sequelize";
-import Config from "../config/config.json";
+import Config from "../config/config";
 
-const env = process.env.NODE_ENV || "development";
-const config = Config[env];
+dotenv.config({
+    path: `.env.${process.env.NODE_ENV}`,
+});
+
 const db = {};
 
-let sequelize;
-if (config.use_env_variable) {
-    sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-    sequelize = new Sequelize(
-        config.database,
-        config.username,
-        config.password,
-        config
-    );
-}
+const sequelize = new Sequelize(
+    Config.database,
+    Config.username,
+    Config.password,
+    Config
+);
 
 const models = {
     User: User(sequelize, Sequelize),

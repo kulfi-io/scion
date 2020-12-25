@@ -4,7 +4,7 @@ import * as jwt from "jsonwebtoken";
 import { GraphQLScalarType } from "graphql";
 
 dotenv.config({
-    path: `.env.${process.env.NODE_ENV}`,
+    path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
 });
 
 /**

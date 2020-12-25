@@ -8,46 +8,16 @@ Example for development
 
 # create .env.development in the root directory
 
-create one for each environment develoment|test|production
+create one for each environment develoment|test|production|CI
 
 PORT=3001
 API_BASE_URL=/api/v1
 API_CACHE_DURATION=60
-
-DB Config
-Config files are not checked in:  
-create a local config file in the src/db/config directory. Use the following as sample:
-
-# sample config.json file, store in src/db/config directory
-
-"development": {
-"username": "usrname",
-"password": "userpass",
-"database": "devdb",
-"host": "127.0.0.1",
-"schema": "dev",
-"searchPath": "dev",
-"dialectOptions": {
-"prependSearchPath": true
-},
-"dialect": "postgres"
-},
-"test": {
-"username": "usrname",
-"password": "usrpass",
-"database": "testdb",
-"host": "127.0.0.1",
-"schema": "test",
-"searchPath": "test",
-"dialectOptions": {
-"prependSearchPath": true
-},
-"dialect": "postgres"
-},
-"production": {
-"username": "usrname",
-"password": "usrpass",
-"database": "proddb",
-"host": "127.0.0.1",
-"dialect": "postgres"
-}
+DB_USERNAME=username
+DB_PASSWORD=password
+DB_DATABASE=databasename
+DB_HOST=127.0.0.1
+DB_SCHEMA=schemaname
+DB_SEARCH_PATH=schemaname
+DB_DIALECT_OPTIONS={prependSearchPath:true}
+DB_DIALECT=postgres

@@ -8,7 +8,7 @@
         "dev-db-migrate": "npx sequelize db:migrate",
         "dev-db-seed": "npx sequelize db:seed:all",
         "dev-clean-seed": "npm run dev-db-migrate-undo && npm run dev-db-migrate && npm run dev-db-seed",
-        "start": "npm run dev-clean-seed && NODE_ENV=development node index.js",
+        "start": "npm run dev-clean-seed && node index.js",
         "test-db-migrate-undo": "npx sequelize db:migrate:undo:all --env test",
         "test-db-migrate": "npx sequelize db:migrate --env test",
         "test-db-seed": "npx sequelize db:seed:all --env test",
