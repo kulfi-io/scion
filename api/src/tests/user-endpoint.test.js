@@ -1,7 +1,6 @@
 import app from "../server";
 import supertest from "supertest";
 import dotenv from "dotenv";
-import { createHash } from "../utils";
 
 dotenv.config({
     path: `.env.${process.env.NODE_ENV}`,

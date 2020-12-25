@@ -12,10 +12,15 @@
         "test-db-migrate-undo": "npx sequelize db:migrate:undo:all --env test",
         "test-db-migrate": "npx sequelize db:migrate --env test",
         "test-db-seed": "npx sequelize db:seed:all --env test",
+        "ci-db-migrate-undo": "npx sequelize db:migrate:undo:all --env ci",
+        "ci-db-migrate": "npx sequelize db:migrate --env ci",
+        "ci-db-seed": "npx sequelize db:seed:all --env ci",
         "dev-build": "webpack --mode development --config webpack.config.cjs",
         "build": "webpack --mode production --config webpack.config.cjs",
         "pre-test": "npm run test-db-migrate-undo && npm run test-db-migrate && npm run test-db-seed",
-        "test": "npm run pre-test && NODE_ENV=test jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand"
+        "test": "npm run pre-test && NODE_ENV=test jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand",
+        "pre-ci-test": "npm run ci-db-migrate-undo && npm run ci-db-migrate && npm run ci-db-seed",
+        "ci-test": "npm run pre-ci-test && NODE_ENV=ci jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand"
     },
     "author": "Ashish Chatterjee",
     "license": "ISC",
