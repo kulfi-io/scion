@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "dev-db-migrate-undo": "npx sequelize db:migrate:undo:all",
+        "config-test": "node index.js",
+        "dev-db-migrate-undo": "NODE_ENV=development npx sequelize db:migrate:undo:all ",
         "dev-db-migrate": "npx sequelize db:migrate",
         "dev-db-seed": "npx sequelize db:seed:all",
         "dev-clean-seed": "npm run dev-db-migrate-undo && npm run dev-db-migrate && npm run dev-db-seed",
@@ -17,10 +18,10 @@
         "ci-db-seed": "npx sequelize db:seed:all --env ci",
         "dev-build": "webpack --mode development --config webpack.config.cjs",
         "build": "webpack --mode production --config webpack.config.cjs",
-        "pre-test": "npm run test-db-migrate-undo && npm run test-db-migrate && npm run test-db-seed",
-        "test": "npm run pre-test && NODE_ENV=test jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand",
+        "pre-test": "NODE_ENV=test npm run test-db-migrate-undo && npm run test-db-migrate && npm run test-db-seed",
+        "test": "NODE_ENV=test npm run pre-test && jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand",
         "pre-ci-test": "npm run ci-db-migrate-undo && npm run ci-db-migrate && npm run ci-db-seed",
-        "ci-test": "npm run pre-ci-test && NODE_ENV=ci jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand"
+        "ci-test": "NODE_ENV=ci npm run pre-ci-test && jest  --testTimeout=10000 --detectOpenHandles --forceExit --runInBand"
     },
     "author": "Ashish Chatterjee",
     "license": "ISC",

@@ -4,21 +4,16 @@ import Resource from "./resource";
 import Role from "./role";
 import UserRole from "./user-role";
 import User from "./user";
-import dotenv from "dotenv";
 import Sequelize from "sequelize";
-import Config from "../config/config";
-
-dotenv.config({
-    path: `.env.${process.env.NODE_ENV}`,
-});
+import config from "../config/config";
 
 const db = {};
 
-const sequelize = new Sequelize(
-    Config.database,
-    Config.username,
-    Config.password,
-    Config
+let sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
 );
 
 const models = {
