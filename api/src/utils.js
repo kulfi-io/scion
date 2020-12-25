@@ -195,3 +195,7 @@ export const isValidSelf = async (data) => {
     const resource = verifyResourceAccess(data);
     return authorizedToManageSelf(resource);
 };
+
+/**
+ * TODO Create shared function for Illegal actions
+ */
