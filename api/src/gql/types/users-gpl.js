@@ -17,6 +17,7 @@ import {
 
 /**
  * TODO move models to corresponding types
+ *
  */
 
 export class UserGQL {
