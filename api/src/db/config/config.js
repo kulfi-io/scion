@@ -14,7 +14,7 @@ const config = {
     host: process.env.DB_HOST,
     schema: process.env.DB_SCHEMA,
     searchPath: process.env.DB_SEARCH_PATH,
-    logging: process.env.DB_LOGGING,
+    logging: process.env.DB_LOGGING === "true" ? true : false,
 };
 
 module.exports = config;
