@@ -15,6 +15,10 @@ import {
     isValidSelf,
 } from "../../utils";
 
+/**
+ * TODO move models to corresponding types
+ */
+
 export class UserGQL {
     displayModel = new GraphQLObjectType({
         name: "userDisplayModel",
