@@ -96,11 +96,9 @@ export class UserGQL {
          */
         all: () => ({
             type: new GraphQLList(this.model),
-            args: { requestor: { type: GraphQLNonNull(GraphQLString) } },
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
-                    requestor: args.requestor,
                     model: context.models.User.name,
                 });
 
@@ -175,12 +173,10 @@ export class UserGQL {
             type: this.model,
             args: {
                 id: { type: GraphQLNonNull(GraphQLInt) },
-                requestor: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
-                    requestor: args.requestor,
                     model: context.models.User.name,
                 });
 
@@ -206,12 +202,10 @@ export class UserGQL {
             type: this.model,
             args: {
                 email: { type: GraphQLNonNull(GraphQLString) },
-                requestor: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
-                    requestor: args.requestor,
                     model: context.models.User.name,
                 });
                 const data = await context.models.User.findOne({
@@ -316,7 +310,6 @@ export class UserGQL {
                         }),
                     };
 
-                    _data.requestor = await createHash(data.id);
                     _data.token = createLoginToken({
                         userId: data.id,
                         created: Date.now,
@@ -357,12 +350,10 @@ export class UserGQL {
                 email: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
                 roleId: { type: GraphQLNonNull(GraphQLInt) },
-                requestor: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
-                    requestor: args.requestor,
                     model: context.models.User.name,
                 });
                 const hashed = await createHash(args.password);
@@ -403,12 +394,10 @@ export class UserGQL {
             type: this.model,
             args: {
                 id: { type: GraphQLNonNull(GraphQLInt) },
-                requestor: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
                 await isValid({
                     user: context.user,
-                    requestor: args.requestor,
                     model: context.models.User.name,
                 });
 
@@ -459,28 +448,26 @@ export class UserGQL {
         changePassword: () => ({
             type: this.model,
             args: {
-                requestor: { type: GraphQLNonNull(GraphQLString) },
+                email: { type: GraphQLNonNull(GraphQLString) },
                 oldPassword: { type: GraphQLNonNull(GraphQLString) },
                 password: { type: GraphQLNonNull(GraphQLString) },
             },
             resolve: async (input, args, context) => {
-                await isValidSelf({
-                    user: context.user,
-                    requestor: args.requestor,
-                    model: context.models.User.name,
-                });
-
-                console.log("change-password");
-
                 let data = await context.models.User.findOne({
                     attributes: ["id", "email", "password"],
                     where: {
-                        id: context.user.userId,
+                        email: args.email,
                         active: true,
                     },
                 });
 
                 if (data) {
+                    await isValid({
+                        user: context.user,
+                        model: context.models.User.name,
+                        targetUserId: data.id,
+                    });
+
                     const valid = await compareData(
                         args.oldPassword,
                         data.password

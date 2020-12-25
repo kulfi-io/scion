@@ -8,11 +8,34 @@ import { getLoginTokenData } from "./utils";
 
 const app = express();
 
+const whitelist = process.env.ORIGIN_WHITELIST;
+
+const options = {
+    origin: (origin, callback) => {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    method: "POST",
+};
+
 app.use("/gql", bodyparser.json({ limit: "1000mb" }));
 app.use("/gql", bodyparser.urlencoded({ limit: "50mb", extended: true }));
-app.use("/gql/v1", cors(), (req, res) => {
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader("Access-Control-Allow-Methods", "POST");
+app.use("/gql/v1", cors(options), (req, res) => {
+    // res.setHeader("Strict-Transport-Security", "max-age=31536000;");
+    res.setHeader("Content-Security-Policy", "script-src 'self'");
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+    res.setHeader("X-Frame-Options", "DENY");
+    res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Origin",
+        "Accept",
+        "X-Requested-With, Content-Type, Authorization"
+    );
+    res.setHeader("Content-Type", "application/json");
+
     graphqlHTTP({
         schema: Schema,
         graphiql: process.env.NODE_ENV === "development",

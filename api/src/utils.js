@@ -167,14 +167,8 @@ export const GraphQLScalarDate = new GraphQLScalarType({
 export const isValid = async (data) => {
     if (!data || !data.user) throw new Error("Not Authenticated");
 
-    if (!data.requestor) throw new Error("Invalid Requestor");
-
-    if (await compareData(data.user.userId, data.requestor)) {
-        const resource = verifyResourceAccess(data);
-        return authorizedToManage(resource);
-    }
-
-    throw new Error("Unauthorized Requestor");
+    const resource = verifyResourceAccess(data);
+    return authorizedToManage(resource);
 };
 
 /**
@@ -187,12 +181,17 @@ export const isValid = async (data) => {
 export const isValidSelf = async (data) => {
     if (!data || !data.user) throw new Error("Not Authenticated");
 
-    if (!data.requestor) throw new Error("Invalid Requestor");
+    /**
+     * TODO log action to database
+     * TODO force web app to alert as illegal action
+     * TODO force web app to logout user
+     * TODO reset tageted user
+     * TODO notify admin and targeted user
+     */
 
-    if (await compareData(data.user.userId, data.requestor)) {
-        const resource = verifyResourceAccess(data);
-        return authorizedToManageSelf(resource);
-    }
+    if (data.user.userId !== data.targetUserId)
+        throw new Error("Illegal Action");
 
-    throw new Error("Unauthorized Requestor");
+    const resource = verifyResourceAccess(data);
+    return authorizedToManageSelf(resource);
 };
