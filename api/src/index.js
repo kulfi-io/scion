@@ -13,6 +13,7 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
 });
 
+// testting serverless
 const app = express();
 const port = process.env.PORT;
 

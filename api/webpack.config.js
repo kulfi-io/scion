@@ -1,15 +1,10 @@
 const path = require("path");
-const wp = require("webpack");
 const slsw = require("serverless-webpack");
 const pkg = require("./package.json");
 
 let dep = {};
 
-const keys = Object.keys(pkg.dependencies);
-
-keys.forEach((key) => {
-    dep[key] = key;
-});
+Object.keys(pkg.dependencies).forEach((key) => (dep[key] = key));
 
 module.exports = {
     entry: slsw.lib.entries,
