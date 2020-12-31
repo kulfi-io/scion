@@ -15,7 +15,7 @@ pipeline {
             steps {
                echo "$workspace"
                sh "cd $workspace/api"
-               sh "ls"
+               sh "ls $workspace/api"
             }
         }
     }
