@@ -1,7 +1,7 @@
 // Jenkinsfile
 pipeline {
     agent {
-        docker { image 'node:14-alpine'}
+        docker exec -u 0 --privileged { image 'node:14-alpine'}
     }
     stages {
         stage('Display node version') {
