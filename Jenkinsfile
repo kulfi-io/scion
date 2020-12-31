@@ -39,7 +39,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('api') {
-                    sh 'npx sls config credentials --provider aws'
+                    /* groovylint-disable-next-line GStringExpressionWithinString, LineLength */
+                    sh 'sls config credentials --provider aws --key ${env.AWS_ACCESS_KEY_ID} --secret AWS_SECRET_ACCESS_KEY'
                 }
             }
         }
