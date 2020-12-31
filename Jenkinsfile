@@ -18,8 +18,7 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'pwd'
-                    sh 'sudo chown -R 113:119 "/.npm"'
-                    sh 'npm install'
+                    sh 'sudo npm install'
                 }
             }
         }
