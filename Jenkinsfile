@@ -41,7 +41,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('api') {
-                    sh 'npx sls deploy'
+                    sh 'npx sls deploy -v'
                 }
             }
         }

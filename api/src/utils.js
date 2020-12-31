@@ -1,11 +1,7 @@
 import bcrypt from "bcryptjs";
-import dotenv from "dotenv";
 import * as jwt from "jsonwebtoken";
 import { GraphQLScalarType } from "graphql";
-
-dotenv.config({
-    path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
-});
+import config from "../env.config";
 
 /**
  * getReource
@@ -22,7 +18,7 @@ const getResource = (data) => {
  * return decrpted token value
  */
 const getTokenPayload = (token) => {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    return jwt.verify(token, config.jwtSecret);
 };
 
 /**
@@ -81,7 +77,7 @@ const authorizedToManageSelf = (data) => {
  * retuns hash
  */
 export const createHash = async (data) => {
-    return await bcrypt.hash(data.toString(), parseInt(process.env.CRYPT_SALT));
+    return await bcrypt.hash(data.toString(), parseInt(config.cryptSalt));
 };
 
 /**
@@ -100,7 +96,7 @@ export const compareData = async (data, hashed) => {
  * return token
  */
 export const createLoginToken = (data) => {
-    return jwt.sign(data, process.env.JWT_SECRET);
+    return jwt.sign(data, config.jwtSecret);
 };
 
 /**
