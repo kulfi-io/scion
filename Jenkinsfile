@@ -18,7 +18,7 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'pwd'
-                    sh 'sudo npm install'
+                    sh 'ls .'
                 }
             }
         }
