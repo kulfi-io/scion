@@ -8,8 +8,9 @@ pipeline {
     stages {
         stage('List dependency versions') {
             steps {
-                echo 'building'
-                echo 'node -v'
+                echo 'checking versions...'
+                sh 'node -v'
+                sh 'npm -v'
             }
         }
     }
