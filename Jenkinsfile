@@ -5,9 +5,10 @@ pipeline {
         docker { image 'node:14-alpine'}
     }
     stages {
-        stage('Display node version') {
+        stage('pre-build') {
             steps {
                 sh 'node -v'
+                sh 'cd api'
             }
         }
     }
