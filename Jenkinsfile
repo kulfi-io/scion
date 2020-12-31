@@ -10,6 +10,8 @@ pipeline {
     }
     environment {
         HOME = '.'
+        AWS_ACCESS_KEY_ID = credentials('aws_key_id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
     }
     stages {
         stage('List dependency versions') {
@@ -39,8 +41,8 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('api') {
-                    /* groovylint-disable-next-line GStringExpressionWithinString, LineLength */
-                    sh 'sls config credentials --provider aws --key ${env.AWS_ACCESS_KEY_ID} --secret AWS_SECRET_ACCESS_KEY'
+                    sh 'npm install -g serverless'
+                    sh 'sls deploy'
                 }
             }
         }
