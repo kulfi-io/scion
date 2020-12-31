@@ -5,6 +5,9 @@ pipeline {
     agent {
         docker { image 'node:14-alpine' }
     }
+    environment {
+        HOME = '.'
+    }
     stages {
         stage('List dependency versions') {
             steps {
@@ -19,6 +22,7 @@ pipeline {
                 dir('api') {
                     sh 'pwd'
                     sh 'ls .'
+                    sh 'npm install'
                 }
             }
         }
