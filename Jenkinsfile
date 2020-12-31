@@ -5,19 +5,24 @@ pipeline {
         docker { image 'node:14-alpine'}
     }
     stages {
-        stage('get dependency versions') {
+        stage('Setup to use bash') {
             steps {
-                sh 'node -v'
-                sh 'npm -v'
-                sh 'whoami'
+                sh '''#/bin/bash
+                    echo "change to bash"
+                ''' 
+            }
+        }
+        stage('List dependency versions') {
+            steps {
+                bash 'node -v'
+                bash 'npm -v'
             }
         }
         stage('pre-build') {
             steps {
-               dir("$workspace/api"){
-                    sh "pwd"
-                    sh "npm install"
-                }
+              bash 'ls .'
+              bash 'cd api'
+              bash 'ls .'
             }
         }
     }
