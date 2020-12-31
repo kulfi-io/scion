@@ -9,6 +9,7 @@ pipeline {
             steps {
                 sh 'node -v'
                 sh 'cd api'
+                sh 'npm install'
             }
         }
     }
