@@ -8,10 +8,7 @@ pipeline {
     stages {
         stage('List dependency versions') {
             steps {
-                bash '''#!/bin/bash
-                node -v
-                npm -v
-            '''
+                sh 'echo "hello"'
             }
         }
     }
