@@ -24,7 +24,6 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm install'
-                    sh 'npm i serverless'
                 }
             }
         }
@@ -40,7 +39,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('api') {
-                    sh 'sls config credentials --provider aws'
+                    sh 'npx sls config credentials --provider aws'
                 }
             }
         }
