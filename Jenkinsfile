@@ -10,7 +10,7 @@ pipeline {
                 sh 'node -v'
                 sh 'npm -v'
                 sh 'ls .'
-                sh 'cd ./api'
+                sh 'cd ./api/'
                 sh 'ls .'
             }
         }
