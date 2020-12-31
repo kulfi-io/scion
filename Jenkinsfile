@@ -1,12 +1,10 @@
 // Jenkinsfile
 pipeline {
-    agent {
-        docker { image 'node:14-alpine'}
-    }
+    agent any
     stages {
-        stage('Display node version') {
+        stage('Display user') {
             steps {
-                sh 'node --version'
+                sh 'whoami'
             }
         }
     }
