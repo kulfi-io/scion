@@ -35,5 +35,13 @@ pipeline {
                 }
             }
         }
+
+        stage('Deploy') {
+            steps {
+                dir('api') {
+                    sh 'sls config credentials --provider aws'
+                }
+            }
+        }
     }
 }
