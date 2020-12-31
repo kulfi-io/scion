@@ -22,7 +22,6 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm install'
-                    sh 'ls .'
                 }
             }
         }
