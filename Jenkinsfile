@@ -26,7 +26,7 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm install'
-                    sh 'npm i -g serverless'
+                    sh 'npm i serverless'
                 }
             }
         }
@@ -35,15 +35,6 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm run test'
-                }
-            }
-        }
-
-        stage('Deploy to aws') {
-            steps {
-                dir('api') {
-                    sh 'sls config credentials --provider aws --key $(AWS_KEY_ID) --secret $(AWS_SECRET_KEY)'
-                    sh 'sls deploy'
                 }
             }
         }
