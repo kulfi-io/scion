@@ -13,11 +13,12 @@ pipeline {
                 sh 'npm -v'
             }
         }
-        dir('/api') {
-            stage('Setup api directory') {
-                steps {
-                    sh 'ls .'
-                }
+
+        stage('Setup api directory') {
+            steps {
+                sh 'dir("/api") {
+                    ls .
+                }'
             }
         }
     }
