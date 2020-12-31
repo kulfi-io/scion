@@ -23,6 +23,7 @@ pipeline {
                     sh 'pwd'
                     sh 'ls .'
                     sh 'npm install'
+                    sh 'npm auto fix'
                 }
             }
         }
