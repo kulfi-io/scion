@@ -9,6 +9,7 @@ pipeline {
         stage('List dependency versions') {
             steps {
                 echo 'building'
+                echo 'node -v'
             }
         }
     }
