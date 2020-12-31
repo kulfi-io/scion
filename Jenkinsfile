@@ -10,8 +10,6 @@ pipeline {
     }
     environment {
         HOME = '.'
-        AWS_KEY_ID = $(env.AWS_ACCESS_KEY_ID)
-        AWS_SECRET_KEY = $(env.AWS_SECRET_ACCESS_KEY)
     }
     stages {
         stage('List dependency versions') {
@@ -26,7 +24,6 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm install'
-                    sh 'npm i serverless'
                 }
             }
         }
