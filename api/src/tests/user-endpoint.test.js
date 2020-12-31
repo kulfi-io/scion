@@ -23,11 +23,11 @@ describe("Executive Officer Role Tests", () => {
             .send({
                 query: `{
                 login(email: "admin@scion.com" password:"password") {
-                    token 
+                    token
                     user {id firstName lastName fullName}
                     roles{id name isDefault resources {
                         id name permissions
-                    }} 
+                    }}
                 }
             }`,
             })
@@ -36,9 +36,7 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.login.user.firstName).toEqual("Admin");
                 expect(res.body.data.login.roles.length).toEqual(1);
@@ -47,7 +45,6 @@ describe("Executive Officer Role Tests", () => {
                 done();
             });
     });
-
     test("authentication-failure-for-retrieve-users", async (done) => {
         request
             .post(gplUrl)
@@ -71,12 +68,10 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Not Authenticated");
                 done();
             });
     });
-
     test("retrieve-users", async (done) => {
         request
             .post(gplUrl)
@@ -98,19 +93,15 @@ describe("Executive Officer Role Tests", () => {
             .set("Content-Type", "application/json")
             .set("authorization", token)
             .set("Origin", process.env.ORIGIN_WHITELIST)
-
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.users.length).toEqual(1);
                 done();
             });
     });
-
     test("authentication-failure-for-retrieve-user-by-Id", async (done) => {
         request
             .post(gplUrl)
@@ -134,12 +125,10 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Not Authenticated");
                 done();
             });
     });
-
     test("retrieve-user-by-id", async (done) => {
         request
             .post(gplUrl)
@@ -161,19 +150,15 @@ describe("Executive Officer Role Tests", () => {
             .set("Content-Type", "application/json")
             .set("authorization", token)
             .set("Origin", process.env.ORIGIN_WHITELIST)
-
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.userById.id).toEqual(1);
                 done();
             });
     });
-
     test("authentication-failure-for-retrieve-user-by-email", async (done) => {
         request
             .post(gplUrl)
@@ -197,12 +182,10 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Not Authenticated");
                 done();
             });
     });
-
     test("retrieve-user-by-email", async (done) => {
         request
             .post(gplUrl)
@@ -224,19 +207,15 @@ describe("Executive Officer Role Tests", () => {
             .set("Content-Type", "application/json")
             .set("authorization", token)
             .set("Origin", process.env.ORIGIN_WHITELIST)
-
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.userByEmail.id).toEqual(1);
                 done();
             });
     });
-
     test("authentication-failure-for-create-user", async (done) => {
         request
             .post(gplUrl)
@@ -252,12 +231,10 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Not Authenticated");
                 done();
             });
     });
-
     test("create-user", async (done) => {
         request
             .post(gplUrl)
@@ -271,19 +248,15 @@ describe("Executive Officer Role Tests", () => {
             .set("Content-Type", "application/json")
             .set("authorization", token)
             .set("Origin", process.env.ORIGIN_WHITELIST)
-
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.addUser.id).toBeTruthy();
                 done();
             });
     });
-
     test("duplicate-email-create-user-returns-validation-error", async (done) => {
         request
             .post(gplUrl)
@@ -297,16 +270,13 @@ describe("Executive Officer Role Tests", () => {
             .set("Content-Type", "application/json")
             .set("authorization", token)
             .set("Origin", process.env.ORIGIN_WHITELIST)
-
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Validation error");
                 done();
             });
     });
-
     test("authentication-failure-for-change-password", async (done) => {
         request
             .post(gplUrl)
@@ -322,12 +292,10 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Not Authenticated");
                 done();
             });
     });
-
     test("change-password", async (done) => {
         request
             .post(gplUrl)
@@ -341,19 +309,15 @@ describe("Executive Officer Role Tests", () => {
             .set("Content-Type", "application/json")
             .set("authorization", token)
             .set("Origin", process.env.ORIGIN_WHITELIST)
-
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.changePassword.id).toBeTruthy();
                 done();
             });
     });
-
     test("login-with-new-password", (done) => {
         request
             .post(gplUrl)
@@ -374,9 +338,7 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.login.user.firstName).toEqual("Admin");
                 expect(res.body.data.login.roles.length).toEqual(1);
@@ -385,7 +347,6 @@ describe("Executive Officer Role Tests", () => {
                 done();
             });
     });
-
     test("login-with-newly-added-user", (done) => {
         request
             .post(gplUrl)
@@ -406,9 +367,7 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.login.user.firstName).toEqual("Lucy");
                 expect(res.body.data.login.roles.length).toEqual(1);
@@ -417,7 +376,6 @@ describe("Executive Officer Role Tests", () => {
                 done();
             });
     });
-
     test("authentication-failure-for-deactivation", (done) => {
         request
             .post(gplUrl)
@@ -433,12 +391,10 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual("Not Authenticated");
                 done();
             });
     });
-
     test("deactivate-failure-for-invalid-id", (done) => {
         request
             .post(gplUrl)
@@ -455,14 +411,12 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 expect(res.body.errors[0].message).toEqual(
                     "Deactivation Failure"
                 );
                 done();
             });
     });
-
     test("deactivate-newly-added-user", (done) => {
         request
             .post(gplUrl)
@@ -479,9 +433,7 @@ describe("Executive Officer Role Tests", () => {
             .expect(200)
             .end((err, res) => {
                 if (err) return done(err);
-
                 if (res.body.errors) return done(res.body.errors[0].message);
-
                 expect(res.body).toBeInstanceOf(Object);
                 expect(res.body.data.deactivateUser.id).toBeTruthy();
                 done();

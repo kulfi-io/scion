@@ -3,7 +3,7 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
 });
 
-const config = {
+module.exports = {
     dialect: "postgres",
     dialectOptions: {
         prependSearchPath: true,
@@ -16,5 +16,3 @@ const config = {
     searchPath: process.env.DB_SEARCH_PATH,
     logging: process.env.DB_LOGGING === "true" ? true : false,
 };
-
-module.exports = config;
