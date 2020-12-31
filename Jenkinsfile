@@ -9,7 +9,8 @@ pipeline {
             steps {
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'cd api'
+                sh 'ls .'
+                sh 'cd ./api'
                 sh 'ls .'
             }
         }
