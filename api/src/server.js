@@ -6,15 +6,11 @@ import { graphqlHTTP } from "express-graphql";
 import { Schema } from "./gql/resolvers";
 import db from "./db/models";
 import { getLoginTokenData } from "./utils";
-import dotenv from "dotenv";
-
-dotenv.config({
-    path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
-});
+import config from "../env.config";
 
 const app = express();
 
-const whitelist = process.env.ORIGIN_WHITELIST;
+const whitelist = config.originWhitelist;
 
 const options = {
     origin: (origin, callback) => {
