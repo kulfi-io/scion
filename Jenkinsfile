@@ -5,13 +5,15 @@ pipeline {
         docker { image 'node:14-alpine'}
     }
     stages {
-        stage('pre-build') {
+        stage('get dependency versions') {
             steps {
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'ls .'
-                sh 'alias source=". /api"'
-                sh 'ls .'
+            }
+        }
+        stage('change directory') {
+            steps {
+               echo "$workspace"
             }
         }
     }
