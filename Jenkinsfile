@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        stage('Install pachages') {
+        stage('Install packages') {
             steps {
                 dir('api') {
                     sh 'npm install'
@@ -34,6 +34,7 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm run test'
+                    sh 'npm i -g serverless'
                 }
             }
         }
@@ -41,7 +42,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 dir('api') {
-                    sh 'npm install -g serverless'
                     sh 'sls deploy'
                 }
             }
