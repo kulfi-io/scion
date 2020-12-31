@@ -14,7 +14,7 @@ pipeline {
         stage('pre-build') {
             steps {
                echo "$workspace"
-               sh "npm install -prefix $workspace/api"
+               sh "$workspace/api npm install"
             }
         }
     }
