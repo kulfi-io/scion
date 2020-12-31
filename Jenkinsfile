@@ -13,8 +13,9 @@ pipeline {
         }
         stage('pre-build') {
             steps {
-               echo "$workspace"
-               sh "$workspace/api npm install"
+               dir("$workspace/api"){
+                    sh "pwd"
+                }
             }
         }
     }
