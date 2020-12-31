@@ -14,6 +14,8 @@ pipeline {
         stage('change directory') {
             steps {
                echo "$workspace"
+               sh "cd ($workspace)/scion/api"
+               sh "ls"
             }
         }
     }
