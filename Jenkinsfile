@@ -7,7 +7,7 @@ pipeline {
     stages {
         stage('Setup to use bash') {
             steps {
-                sh '''#/bin/bash
+                bash '''#/bin/bash
                     echo "change to bash"
                 ''' 
             }
