@@ -10,7 +10,7 @@ pipeline {
                 sh 'node -v'
                 sh 'npm -v'
                 sh 'ls .'
-                sh '. api'
+                sh 'alias source=". /api"'
                 sh 'ls .'
             }
         }
