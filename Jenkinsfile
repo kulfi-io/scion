@@ -11,11 +11,10 @@ pipeline {
                 sh 'npm -v'
             }
         }
-        stage('change directory') {
+        stage('pre-build') {
             steps {
                echo "$workspace"
-               sh "cd $workspace/api"
-               sh "ls $workspace/api"
+               sh "npm install -prefix $workspace/api"
             }
         }
     }
