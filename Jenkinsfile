@@ -18,6 +18,7 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'pwd'
+                    sh 'npm install'
                 }
             }
         }
