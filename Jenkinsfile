@@ -1,3 +1,4 @@
+/* groovylint-disable DuplicateStringLiteral */
 // Jenkinsfile
 
 /* groovylint-disable-next-line CompileStatic */
@@ -20,16 +21,17 @@ pipeline {
         stage('Setup api directory') {
             steps {
                 dir('api') {
-                    sh 'pwd'
-                    sh 'ls .'
                     sh 'npm install'
+                    sh 'ls .'
                 }
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'ls'
+                dir('api') {
+                    sh 'npm run test'
+                }
             }
         }
     }
