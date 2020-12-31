@@ -23,8 +23,13 @@ pipeline {
                     sh 'pwd'
                     sh 'ls .'
                     sh 'npm install'
-                    sh 'npm auto fix'
                 }
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                sh 'ls'
             }
         }
     }
