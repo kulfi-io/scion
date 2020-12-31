@@ -13,8 +13,5 @@ pipeline {
                 '''
             }
         }
-        stage('pre-build') {
-            
-        }
     }
 }
