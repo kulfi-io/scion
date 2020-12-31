@@ -26,7 +26,7 @@ pipeline {
             steps {
                 dir('api') {
                     sh 'npm install'
-                    sh 'npm i -g serverless'
+                    sh 'npm i serverless'
                 }
             }
         }
