@@ -6,14 +6,8 @@ import { graphqlHTTP } from "express-graphql";
 import { Schema } from "./gql/resolvers";
 import db from "./db/models";
 import { getLoginTokenData } from "./utils";
-import dotenv from "dotenv";
-
-dotenv.config({
-    path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
-});
 
 const app = express();
-const port = process.env.PORT;
 
 const whitelist = process.env.ORIGIN_WHITELIST;
 
@@ -53,7 +47,7 @@ app.get("/", (req, res) => {
     res.send("Express is working!");
 });
 
-app.post("/gql/v1", (req, res) => {
+app.get("/gql/v1", (req, res) => {
     res.status(200).send({ message: "hello from gql" });
 });
 
