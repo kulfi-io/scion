@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('List dependency versions') {
             steps {
-                sh 'echo "hello"'
+                bash 'echo "hello"'
             }
         }
     }
