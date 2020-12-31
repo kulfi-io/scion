@@ -15,7 +15,7 @@ pipeline {
             steps {
                dir("$workspace/api"){
                     sh "pwd"
-                    sh "sudo npm install"
+                    sh "npm install"
                 }
             }
         }
