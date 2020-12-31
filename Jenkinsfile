@@ -5,25 +5,16 @@ pipeline {
         docker { image 'node:14-alpine'}
     }
     stages {
-        stage('Setup to use bash') {
-            steps {
-                bash '''#/bin/bash
-                    echo "change to bash"
-                ''' 
-            }
-        }
         stage('List dependency versions') {
             steps {
-                bash 'node -v'
-                bash 'npm -v'
+               bash '''#!/bin/bash
+                    node -v
+                    npm -v
+                '''
             }
         }
         stage('pre-build') {
-            steps {
-              bash 'ls .'
-              bash 'cd api'
-              bash 'ls .'
-            }
+            
         }
     }
 }
