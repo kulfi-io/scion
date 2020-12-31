@@ -1,12 +1,9 @@
 // Jenkinsfile
-import jenkins.model.Jenkins;
 
-echo "I'm running as " + Jenkins.authentication;
-
-import jenkins.model.Jenkins;
-
-echo "I'm running as " + Jenkins.authentication;
 pipeline {
+    agent {
+        docker { image 'node:14-alpine'}
+    }
     stages {
         stage('Display node version') {
             steps {
