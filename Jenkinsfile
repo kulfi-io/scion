@@ -8,8 +8,9 @@ pipeline {
         stage('pre-build') {
             steps {
                 sh 'node -v'
+                sh 'npm -v'
                 sh 'cd api'
-                sh 'npm install'
+                sh 'ls .'
             }
         }
     }
