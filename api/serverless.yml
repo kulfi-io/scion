@@ -28,7 +28,7 @@ provider:
             - subnet-872599da
 functions:
     graphql:
-        handler: index.handler
+        handler: src/index.handler
         events:
             - http:
                   path: gql/v1/
