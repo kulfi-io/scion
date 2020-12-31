@@ -16,9 +16,9 @@ pipeline {
 
         stage('Setup api directory') {
             steps {
-                sh 'dir("/api") {
-                    ls .
-                }'
+                dir('api') {
+                    sh 'pwd'
+                }
             }
         }
     }
