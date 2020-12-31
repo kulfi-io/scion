@@ -14,6 +14,7 @@ const whitelist = process.env.ORIGIN_WHITELIST;
 const options = {
     origin: (origin, callback) => {
         console.log("origin", origin);
+        console.log("whitelist", whitelist);
         if (whitelist.indexOf(origin) !== -1) {
             callback(null, true);
         } else {
