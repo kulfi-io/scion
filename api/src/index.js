@@ -63,4 +63,9 @@ app.listen(port, (req, res) => {
     console.log("listening on", port);
 });
 
-export const handler = serverless(app);
+let handler;
+
+if (process.env.NODE_ENV === "test") handler = app;
+else handler = serverless(app);
+
+export default handler;
