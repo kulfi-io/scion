@@ -8,5 +8,10 @@ pipeline {
                 sh 'whoami'
             }
         }
+        stage('Install') {
+            steps {
+                sh 'npm install'
+            }
+        }
     }
 }
