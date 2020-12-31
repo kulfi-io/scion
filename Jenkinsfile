@@ -15,6 +15,7 @@ pipeline {
             steps {
                dir("$workspace/api"){
                     sh "pwd"
+                    sh "ls"
                 }
             }
         }
