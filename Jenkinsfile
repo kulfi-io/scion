@@ -31,6 +31,8 @@ pipeline {
                 echo 'checking versions...'
                 sh 'node -v'
                 sh 'npm -v'
+                echo 'checking env. vars...'
+                echo "host: ${DB_HOST}"
             }
         }
 
