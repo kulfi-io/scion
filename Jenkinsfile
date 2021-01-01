@@ -12,7 +12,7 @@ pipeline {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
-        PORT = $env.PORT
+        PORT = "${env.PORT}"
         API_BASE_URL = env.API_BASE_URL
         CRYPT_SALT = env.CRYPT_SALT
         JWT_SECRET = env.JWT_SECRET
