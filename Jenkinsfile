@@ -44,13 +44,13 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                dir('api') {
-                    sh 'npm run test'
-                }
-            }
-        }
+        // stage('Run Tests') {
+        //     steps {
+        //         dir('api') {
+        //             sh 'npm run test'
+        //         }
+        //     }
+        // }
 
         stage('Deploy') {
             steps {
