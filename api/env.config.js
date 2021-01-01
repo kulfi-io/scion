@@ -4,7 +4,7 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
 });
 
-module.exports = {
+module.exports = () => ({
     port: process.env.PORT,
     apiBase: process.env.API_BASE,
     cryptSalt: process.env.CRYPT_SALT,
@@ -20,4 +20,4 @@ module.exports = {
         process.env.DB_LOGGING && process.env.DB_LOGGING === "true"
             ? true
             : false,
-};
+});
