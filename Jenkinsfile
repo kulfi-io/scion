@@ -44,20 +44,20 @@ pipeline {
             }
         }
 
-        // stage('Run Tests') {
-        //     steps {
-        //         dir('api') {
-        //             sh 'npm run test'
-        //         }
-        //     }
-        // }
-
-        stage('Deploy') {
+        stage('Run Tests') {
             steps {
                 dir('api') {
-                    sh 'npx sls deploy --stage development'
+                    sh 'npm run test'
                 }
             }
         }
+
+        // stage('Deploy') {
+        //     steps {
+        //         dir('api') {
+        //             sh 'npx sls deploy --stage development'
+        //         }
+        //     }
+        // }
     }
 }
