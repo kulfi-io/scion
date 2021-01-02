@@ -45,6 +45,7 @@ pipeline {
         }
 
         stage('Run Tests') {
+            echo 'hostname -i'.execute().text
             steps {
                 dir('api') {
                     sh 'npm run test'
