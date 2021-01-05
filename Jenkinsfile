@@ -20,7 +20,7 @@ pipeline {
                 sh 'node -v'
                 sh 'npm -v'
                 echo 'checking env. vars...'
-                echo "host: ${DB_HOST}"
+                echo 'netstat -lntu'
             }
         }
 
@@ -40,12 +40,12 @@ pipeline {
             }
         }
 
-        // stage('Deploy') {
-        //     steps {
-        //         dir('api') {
-        //             sh 'npx sls deploy --stage development'
-        //         }
-        //     }
-        // }
+    // stage('Deploy') {
+    //     steps {
+    //         dir('api') {
+    //             sh 'npx sls deploy --stage development'
+    //         }
+    //     }
+    // }
     }
 }
