@@ -21,6 +21,7 @@ pipeline {
                 sh 'npm -v'
                 echo 'checking env. vars...'
                 sh 'netstat -lntu'
+                sh 'docker run -p'
             }
         }
 
