@@ -6,6 +6,7 @@ pipeline {
     agent {
         docker {
             image 'node:14-alpine'
+            args '--expose 5432'
         }
     }
     environment {
@@ -21,7 +22,6 @@ pipeline {
                 sh 'npm -v'
                 echo 'checking env. vars...'
                 sh 'netstat -lntu'
-                sh 'docker run -p'
             }
         }
 
