@@ -20,7 +20,7 @@ pipeline {
                 sh 'node -v'
                 sh 'npm -v'
                 echo 'checking env. vars...'
-                echo 'netstat -lntu'
+                sh 'netstat -lntu'
             }
         }
 
