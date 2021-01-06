@@ -12,7 +12,7 @@ pipeline {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
-        HOST = $(env.DB_HOST)
+        HOST = env.DB_HOST
     }
     stages {
         stage('List dependency versions') {
