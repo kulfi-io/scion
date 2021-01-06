@@ -11,6 +11,7 @@ custom:
         includeModules:
             forceInclude:
                 - pg
+    keys: $(file(./env.config.js))
 provider:
     name: aws
     runtime: nodejs12.x
@@ -29,18 +30,18 @@ provider:
 functions:
     graphql:
         environment:
-            - DB_HOST = DB_HOST
-            - DB_NAME = DB_NAME
-            - DB_PASSWORD = DB_PASSWORD
-            - DB_USERNAME = DB_USERNAME
-            - DB_SCHEMA = DB_SCHEMA
-            - DB_SEARCH_PATH = DB_SEARCH_PATH
-            - DB_LOGGING = DB_LOGGING
-            - PORT = PORT
-            - API_BASE_URL = API_BASE_URL
-            - CRYPT_SALT = CRYPT_SALT
-            - JWT_SECRET = JWT_SECRET
-            - ORIGIN_WHITELIST = ORIGIN_WHITELIST
+            DB_HOST: $(self:custom.dbHost)
+            DB_NAME: $(self:custom.dbName)
+            DB_PASSWORD: $(self:custom.dbPassword)
+            DB_USERNAME: $(self:custom.dbUsername)
+            DB_SCHEMA: $(self:custom.dbSchema)
+            DB_SEARCH_PATH: $(self:custom.dbSearchPath)
+            DB_LOGGING: $(self:custom.dbLogging)
+            PORT: $(self:custom.port)
+            API_BASE_URL: $(self:custom.apiBase)
+            CRYPT_SALT: $(self:custom.cryptSalt)
+            JWT_SECRET: $(self:custom.jwtSecret)
+            ORIGIN_WHITELIST: $(self:custom.originWhitelist)
         handler: src/index.handler
         events:
             - http:

@@ -8,6 +8,8 @@ import db from "./db/models";
 import { getLoginTokenData } from "./utils";
 import config from "../env.config";
 
+console.log(config);
+
 const app = express();
 
 const whitelist = config.originWhitelist;
