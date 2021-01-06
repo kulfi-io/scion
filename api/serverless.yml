@@ -30,7 +30,7 @@ provider:
 functions:
     graphql:
         environment:
-            PORT: ${self:custom.env-secrets.PORT}
+            PORT: ${self:custom.env-secrets}:PORT
         handler: src/index.handler
         events:
             - http:
