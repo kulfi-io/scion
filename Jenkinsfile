@@ -3,17 +3,11 @@
 
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent {
-        docker {
-            image 'node:14-alpine'
-        }
-    }
+    agent any
     environment {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
-        HOST = "${env.DB_HOST}"
-        DATABASE_URL = "postgres://${env.DB_USERNAME}:${env.DB_PASSWORD}@${env.DBHOST}:5432/${env.DBNAME}"
     }
     stages {
         stage('List dependency versions') {
