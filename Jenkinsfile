@@ -10,10 +10,6 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
     }
     stages {
-        statge('run docker') {
-            sh 'docker run '
-        }
-
         stage('List dependency versions') {
             steps {
                 echo 'checking versions...'
