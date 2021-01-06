@@ -12,13 +12,13 @@ custom:
             forceInclude:
                 - pg
     env-secrets: ${ssm:aws/reference/secretsmanager/graphql-env-vars~true}
-environment:
-    PORT: ${self:custom.env-secrets.PORT}
 provider:
     name: aws
     runtime: nodejs12.x
     stage: "dev"
     region: us-west-2
+    environment:
+        PORT: ${self:custom.env-secrets.PORT}
     apiGateway:
         shouldStartNameWithService: true
     vpc:
