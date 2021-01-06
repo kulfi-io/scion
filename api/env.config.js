@@ -6,7 +6,7 @@ dotenv.config({
 
 console.log("env", process.env);
 
-module.exports = () => ({
+const config = {
     port: process.env.PORT,
     apiBase: process.env.API_BASE,
     cryptSalt: process.env.CRYPT_SALT,
@@ -22,4 +22,6 @@ module.exports = () => ({
         process.env.DB_LOGGING && process.env.DB_LOGGING === "true"
             ? true
             : false,
-});
+};
+
+module.exports = config;
