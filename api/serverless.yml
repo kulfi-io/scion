@@ -11,14 +11,12 @@ custom:
         includeModules:
             forceInclude:
                 - pg
-    env-secrets: ${ssm:aws/reference/secretsmanager/graphql-env-vars~true}
+    secret: ${ssm:aws/reference/secretsmanager/graphql-env-vars~true}
 provider:
     name: aws
     runtime: nodejs12.x
     stage: "dev"
     region: us-west-2
-    environment:
-        PORT: ${self:custom.env-secrets.PORT}
     apiGateway:
         shouldStartNameWithService: true
     vpc:
@@ -31,6 +29,8 @@ provider:
             - subnet-872599da
 functions:
     graphql:
+        environment:
+            DB_HOST: ${self:custom.secret.DB_HOST}
         handler: src/index.handler
         events:
             - http:
