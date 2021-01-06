@@ -11,7 +11,9 @@ custom:
         includeModules:
             forceInclude:
                 - pg
-    env-secrets: ${ssm:aws/reference/secretsmanager/graphql-env-vars~true.PORT}
+    env-secrets: ${ssm:aws/reference/secretsmanager/graphql-env-vars~true}
+environment:
+    PORT: ${self:custom.env-secrets.PORT}
 provider:
     name: aws
     runtime: nodejs12.x
@@ -29,8 +31,6 @@ provider:
             - subnet-872599da
 functions:
     graphql:
-        environment:
-            PORT: ${self:custom.env-secrets}
         handler: src/index.handler
         events:
             - http:
