@@ -12,6 +12,7 @@ pipeline {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
+        AWS_HOST = $(env.DB_HOST)
     }
     stages {
         stage('List dependency versions') {
@@ -19,7 +20,7 @@ pipeline {
                 echo 'checking versions...'
                 sh 'node -v'
                 sh 'npm -v'
-                echo $DB_HOST
+                echo $AWS_HOST
             }
         }
 
