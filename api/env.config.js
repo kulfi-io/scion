@@ -4,6 +4,8 @@ dotenv.config({
     path: `.env.${process.env.NODE_ENV ? process.env.NODE_ENV : "development"}`,
 });
 
+console.log("env", process.env);
+
 module.exports = () => ({
     port: process.env.PORT,
     apiBase: process.env.API_BASE,
