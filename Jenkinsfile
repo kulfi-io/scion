@@ -19,7 +19,7 @@ pipeline {
                 echo 'checking versions...'
                 sh 'node -v'
                 sh 'npm -v'
-                sh 'netstat -lntu'
+                echo $DB_HOST
             }
         }
 
