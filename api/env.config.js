@@ -22,6 +22,4 @@ const config = {
             : false,
 };
 
-console.log("env", config);
-
 module.exports = config;
