@@ -1,3 +1,3 @@
-FROM node:14-alpine
+FROM node:14-alpine AS CI-BOX
 USER root
 EXPOSE 5432/TCP
