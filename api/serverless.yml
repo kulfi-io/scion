@@ -4,25 +4,13 @@ service: scion-gpl
 plugins:
     - serverless-offline
     - serverless-webpack
+    - serverless-dotenv-plugin
 custom:
     webpack:
         webpackConfig: ./webpack.config.js
         includeModules:
             forceInclude:
                 - pg
-environment:
-    DB_HOST: ${param:DB_HOST}
-    DB_NAME: ${param:DB_NAME}
-    DB_PASSWORD: ${param:DB_PASSWORD}
-    DB_USERNAME: ${param:DB_USERNAME}
-    DB_SCHEMA: ${param:DB_SCHEMA}
-    DB_SEARCH_PATH: ${param:DB_SEARCH_PATH}
-    DB_LOGGING: ${param:DB_LOGGING}
-    PORT: ${param:DB_USERNAME}
-    API_BASE_URL: ${param:API_BASE_URL}
-    CRYPT_SALT: ${param:API_BASE_URL}
-    JWT_SECRET: ${param:JWT_SECRET}
-    ORIGIN_WHITELIST: ${param:JWT_SECRET}
 provider:
     name: aws
     runtime: nodejs12.x

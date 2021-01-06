@@ -13,6 +13,18 @@ pipeline {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
+        DB_HOST = "${env.DB_HOST}"
+        DB_NAME = "${env.DB_NAME}"
+        DB_PASSWORD = "${env.DB_PASSWORD}"
+        DB_USERNAME = "${env.DB_USERNAME}"
+        DB_SCHEMA = "${env.DB_SCHEMA}"
+        DB_SEARCH_PATH = "${env.DB_SEARCH_PATH}"
+        DB_LOGGING = "${env.DB_LOGGING}"
+        PORT = "${env.PORT}"
+        API_BASE_URL = "${env.API_BASE_URL}"
+        CRYPT_SALT = "${env.CRYPT_SALT}"
+        JWT_SECRET = "${env.JWT_SECRET}"
+        ORIGIN_WHITELIST = "${env.ORIGIN_WHITELIST}"
     }
     stages {
         stage('List dependency versions') {
