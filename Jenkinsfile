@@ -4,7 +4,10 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
     agent {
-        docker {image 'node:14-alpine' args '-u 0 --expose 5432' }
+        docker {
+            image 'node:14-alpine'
+            args '-u 0 --expose 5432'
+        }
     }
     environment {
         HOME = '.'
