@@ -12,7 +12,7 @@ custom:
             forceInclude:
                 - pg
 environment:
-    PORT: ${ssm:aws/reference/secretmanager/graphql-env-vars/PORT~true}
+    PORT: ${ssm:aws/reference/secretsmanager/graphql-env-vars/PORT~true}
 provider:
     name: aws
     runtime: nodejs12.x
