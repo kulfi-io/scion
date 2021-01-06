@@ -4,7 +4,9 @@
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
     agent {
-        image 'node:14-alpine'
+        docker {
+            image 'node:14-alpine'
+        }
     }
     environment {
         HOME = '.'
