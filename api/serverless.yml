@@ -30,18 +30,18 @@ provider:
 functions:
     graphql:
         environment:
-            DB_HOST: $(self:custom.dbHost)
-            DB_NAME: $(self:custom.dbName)
-            DB_PASSWORD: $(self:custom.dbPassword)
-            DB_USERNAME: $(self:custom.dbUsername)
-            DB_SCHEMA: $(self:custom.dbSchema)
-            DB_SEARCH_PATH: $(self:custom.dbSearchPath)
-            DB_LOGGING: $(self:custom.dbLogging)
-            PORT: $(self:custom.port)
-            API_BASE_URL: $(self:custom.apiBase)
-            CRYPT_SALT: $(self:custom.cryptSalt)
-            JWT_SECRET: $(self:custom.jwtSecret)
-            ORIGIN_WHITELIST: $(self:custom.originWhitelist)
+            DB_HOST: $(self:custom.keys.dbHost)
+            DB_NAME: $(self:custom.keys.dbName)
+            DB_PASSWORD: $(self:custom.keys.dbPassword)
+            DB_USERNAME: $(self:custom.keys.dbUsername)
+            DB_SCHEMA: $(self:custom.keys.dbSchema)
+            DB_SEARCH_PATH: $(self:custom.keys.dbSearchPath)
+            DB_LOGGING: $(self:custom.keys.dbLogging)
+            PORT: $(self:custom.keys.port)
+            API_BASE_URL: $(self:custom.keys.apiBase)
+            CRYPT_SALT: $(self:custom.keys.cryptSalt)
+            JWT_SECRET: $(self:custom.keys.jwtSecret)
+            ORIGIN_WHITELIST: $(self:custom.keys.originWhitelist)
         handler: src/index.handler
         events:
             - http:
