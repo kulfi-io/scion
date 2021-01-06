@@ -3,15 +3,17 @@
 
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent {
-        dockerfile true
-    }
+    agent any
     environment {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
     }
     stages {
+        statge('run docker') {
+            sh 'docker run '
+        }
+
         stage('List dependency versions') {
             steps {
                 echo 'checking versions...'
