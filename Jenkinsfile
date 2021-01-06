@@ -12,8 +12,7 @@ pipeline {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
-        DATABASE_URL: postgres://$(env.DB_USERNAME):$(DB_PASSWORD)@DB_HOST:5432/DB_NAME
-
+        HOST = $(env.DB_HOST)
     }
     stages {
         stage('List dependency versions') {
@@ -21,7 +20,6 @@ pipeline {
                 echo 'checking versions...'
                 sh 'node -v'
                 sh 'npm -v'
-                echo sh(returnStdout: true, script: 'env')
             }
         }
 
