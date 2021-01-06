@@ -19,7 +19,6 @@ pipeline {
                 echo 'checking versions...'
                 sh 'node -v'
                 sh 'npm -v'
-                echo 'checking env. vars...'
                 sh 'netstat -lntu'
             }
         }
