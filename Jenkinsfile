@@ -3,7 +3,11 @@
 
 /* groovylint-disable-next-line CompileStatic */
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'node:14-alpine'
+        }
+    }
     environment {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
