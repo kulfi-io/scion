@@ -5,7 +5,7 @@
 pipeline {
     agent {
         docker {
-            image 'node:14-alpine'
+            image 'node:12'
             args '-u 0 --expose 5432'
         }
     }
