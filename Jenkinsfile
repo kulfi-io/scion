@@ -12,6 +12,8 @@ pipeline {
         HOME = '.'
         AWS_ACCESS_KEY_ID = credentials('aws_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret')
+        DATABASE_URL: postgres://$(env.DB_USERNAME):$(DB_PASSWORD)@DB_HOST:5432/DB_NAME
+
     }
     stages {
         stage('List dependency versions') {
