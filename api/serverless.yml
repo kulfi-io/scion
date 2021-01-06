@@ -11,7 +11,6 @@ custom:
         includeModules:
             forceInclude:
                 - pg
-    secret: ${ssm:aws/reference/secretsmanager/graphql-env-vars~true}
 provider:
     name: aws
     runtime: nodejs12.x
@@ -30,7 +29,18 @@ provider:
 functions:
     graphql:
         environment:
-            DB_HOST: ${self:custom.secret.DB_HOST}
+            DB_HOST: ${ssm:/dev-host~true}
+            PORT: ${ssm:/dev-port~true}
+            CRYPT_SALT: ${ssm:/dev-crypt-salr~true}
+            API_BASE_URL: ${ssm:/dev-api-base~true}
+            JWT_SECRET: ${ssm:/dev-jwt-secret~true}
+            ORIGIN_WHITELIST: ${ssm:/dev-origin-list~true}
+            DB_USERNAME: ${ssm:/dev-db-user~true}
+            DB_PASSWORD: ${ssm:/dev-db-pass~true}
+            DB_NAME: ${ssm:/dev-db-name~true}
+            DB_SCHEMA: ${ssm:/dev-schema~true}
+            DB_SEARCH_PATH: ${ssm:/dev-search-path~true}
+            DB_LOGGING: ${ssm:/dev-db-logging~true}
         handler: src/index.handler
         events:
             - http:
