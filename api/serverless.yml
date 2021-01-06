@@ -11,7 +11,8 @@ custom:
         includeModules:
             forceInclude:
                 - pg
-    keys: $(file(./env.config.js))
+environment:
+    env-vars: ${ssm:graphql-env-vars~true}
 provider:
     name: aws
     runtime: nodejs12.x
@@ -29,19 +30,6 @@ provider:
             - subnet-872599da
 functions:
     graphql:
-        environment:
-            DB_HOST: $(self:custom.keys.dbHost)
-            DB_NAME: $(self:custom.keys.dbName)
-            DB_PASSWORD: $(self:custom.keys.dbPassword)
-            DB_USERNAME: $(self:custom.keys.dbUsername)
-            DB_SCHEMA: $(self:custom.keys.dbSchema)
-            DB_SEARCH_PATH: $(self:custom.keys.dbSearchPath)
-            DB_LOGGING: $(self:custom.keys.dbLogging)
-            PORT: $(self:custom.keys).port
-            API_BASE_URL: $(self:custom.keys).apiBase
-            CRYPT_SALT: $(self:custom.keys.cryptSalt)
-            JWT_SECRET: $(self:custom.keys.jwtSecret)
-            ORIGIN_WHITELIST: $(self:custom.keys.originWhitelist)
         handler: src/index.handler
         events:
             - http:
