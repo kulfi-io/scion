@@ -4,7 +4,6 @@ service: scion-gpl
 plugins:
     - serverless-offline
     - serverless-webpack
-    - serverless-dotenv-plugin
 custom:
     webpack:
         webpackConfig: ./webpack.config.js
