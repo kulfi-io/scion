@@ -39,12 +39,12 @@ pipeline {
             }
         }
 
-    // stage('Deploy') {
-    //     steps {
-    //         dir('api') {
-    //             sh 'npx sls deploy --stage development'
-    //         }
-    //     }
-    // }
+        stage('Deploy') {
+            steps {
+                dir('api') {
+                    sh 'npx sls deploy --stage development'
+                }
+            }
+        }
     }
 }
