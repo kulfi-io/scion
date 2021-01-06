@@ -37,8 +37,8 @@ functions:
             DB_SCHEMA: $(self:custom.keys.dbSchema)
             DB_SEARCH_PATH: $(self:custom.keys.dbSearchPath)
             DB_LOGGING: $(self:custom.keys.dbLogging)
-            PORT: $(self:custom.keys.port)
-            API_BASE_URL: $(self:custom.keys.apiBase)
+            PORT: $(self:custom.keys).port
+            API_BASE_URL: $(self:custom.keys).apiBase
             CRYPT_SALT: $(self:custom.keys.cryptSalt)
             JWT_SECRET: $(self:custom.keys.jwtSecret)
             ORIGIN_WHITELIST: $(self:custom.keys.originWhitelist)
